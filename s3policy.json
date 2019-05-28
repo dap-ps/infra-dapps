@@ -1,0 +1,12 @@
+{
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::760668534108:user/terraform-user"
+            },
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::dapps-infra-tf-state"
+        }
+    ]
+}
