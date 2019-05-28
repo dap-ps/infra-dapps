@@ -44,22 +44,37 @@ resource "aws_s3_bucket" "tf-state" {
 
 /* RESOURCES ------------------------------------*/
 
-data "aws_ami" "debian" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["debian-stretch-hvm-x86_64-gp2-2019-05-14-84483"]
-  }
-
-  owners = [379101102735]
+resource "aws_key_pair" "admin" {
+  key_name   = "admin-key"
+  public_key = "${file("admin.pub")}"
 }
 
+//data "aws_ami" "ubuntu" {
+//  most_recent = true
+//
+//  filter {
+//    name   = "name"
+//    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20190212.1"]
+//  }
+//
+//  owners = [99720109477]
+//}
+//
 //resource "aws_instance" "dev-dapps" {
-//  ami           = "${data.aws_ami.ubuntu.id}"
-//  instance_type = "t3.medium"
+//  ami               = "${data.aws_ami.ubuntu.id}"
+//  instance_type     = "t3.medium"
+//  availability_zone = "${var.region}"
+//  key_name          = "${aws_key_pair.admin.key_name}"
 //
 //  tags = {
-//    Name = "${var.name}-${format("%02d", count.index+1)}.${local.dc}.${var.env}.${local.stage}"
+//    Name = "node-01.${var.region}.${var.env}.test"
 //  }
+//}
+
+//resource "gandi_zonerecord" "main" {
+//  zone   = "dap.ps"
+//  name   = "dev"
+//  type   = "A"
+//  ttl    = 3600
+//  values = ["1.2.3.4"]
 //}
