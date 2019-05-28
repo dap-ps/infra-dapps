@@ -44,12 +44,12 @@ resource "aws_s3_bucket" "tf-state" {
 
 /* SES EMail Fowarding --------------------------*/
 
-resource "gandi_zone" "dap_ps" {
-  name = "${var.public_domain} zone"
+resource "gandi_zone" "dap_ps_zone" {
+  name = "${var.public_domain} ses zone"
 }
 
 resource "gandi_zonerecord" "domain-verification" {
-  zone   = "${gandi_zone.dap_ps.id}"
+  zone   = "${gandi_zone.dap_ps_zone.id}"
   name   = "_amazonses"
   type   = "TXT"
   ttl    = 3600
@@ -57,7 +57,7 @@ resource "gandi_zonerecord" "domain-verification" {
 }
 
 resource "gandi_zonerecord" "dap_ps_dkim_1" {
-  zone   = "${gandi_zone.dap_ps.id}"
+  zone   = "${gandi_zone.dap_ps_zone.id}"
   name   = "zhncay5diy2lqdbq2ybrtqy7zaz5j5rb._domainkey"
   type   = "CNAME"
   ttl    = 3600
@@ -65,7 +65,7 @@ resource "gandi_zonerecord" "dap_ps_dkim_1" {
 }
 
 resource "gandi_zonerecord" "dap_ps_dkim_2" {
-  zone   = "${gandi_zone.dap_ps.id}"
+  zone   = "${gandi_zone.dap_ps_zone.id}"
   name   = "lkisrrqkfjmm64kksgqcwbiw6erk32do._domainkey"
   type   = "CNAME"
   ttl    = 3600
@@ -73,7 +73,7 @@ resource "gandi_zonerecord" "dap_ps_dkim_2" {
 }
 
 resource "gandi_zonerecord" "dap_ps_dkim_3" {
-  zone   = "${gandi_zone.dap_ps.id}"
+  zone   = "${gandi_zone.dap_ps_zone.id}"
   name   = "bd6y7xtfpnfpuugoqmjjp7yf75ddyrv2._domainkey"
   type   = "CNAME"
   ttl    = 3600
@@ -81,7 +81,7 @@ resource "gandi_zonerecord" "dap_ps_dkim_3" {
 }
 
 resource "gandi_zonerecord" "dap_ps_mx" {
-  zone   = "${gandi_zone.dap_ps.id}"
+  zone   = "${gandi_zone.dap_ps_zone.id}"
   name   = "@"
   type   = "MX"
   ttl    = 3600
@@ -89,7 +89,7 @@ resource "gandi_zonerecord" "dap_ps_mx" {
 }
 
 resource "gandi_zonerecord" "dap_ps_mail_mx" {
-  zone   = "${gandi_zone.dap_ps.id}"
+  zone   = "${gandi_zone.dap_ps_zone.id}"
   name   = "mail"
   type   = "MX"
   ttl    = 3600
@@ -97,11 +97,16 @@ resource "gandi_zonerecord" "dap_ps_mail_mx" {
 }
 
 resource "gandi_zonerecord" "dap_ps_mail_spf" {
-  zone   = "${gandi_zone.dap_ps.id}"
+  zone   = "${gandi_zone.dap_ps_zone.id}"
   name   = "mail"
   type   = "TXT"
   ttl    = 3600
   values = ["\"v= spf1 include:amazonses.com ~all\""]
+}
+
+resource "gandi_domainattachment" "dap_ps" {
+    domain = "${var.public_domain}"
+    zone   = "${gandi_zone.dap_ps_zone.id}"
 }
 
 /* RESOURCES ------------------------------------*/
