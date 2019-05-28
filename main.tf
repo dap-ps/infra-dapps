@@ -175,10 +175,12 @@ resource "aws_security_group" "dap_ps_dev" {
 resource "aws_instance" "dap_ps_dev" {
   ami               = "${data.aws_ami.ubuntu.id}"
   instance_type     = "${var.instance_type}"
-  availability_zone = "${var.zone}"
   key_name          = "${aws_key_pair.admin.key_name}"
+  availability_zone = "${var.zone}"
 
   security_groups = ["${aws_security_group.dap_ps_dev.name}"]
+
+  associate_public_ip_address = true
 
   tags = {
     Name = "node-01.${var.zone}.${var.env}.test"
