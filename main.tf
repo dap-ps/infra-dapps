@@ -56,7 +56,7 @@ resource "gandi_zonerecord" "domain-verification" {
   values = ["\"CmTCsJqXg8DadmhGCNOWsSCXPQ8FjHkbw0SwjqLBzLM=\""]
 }
 
-resource "gandi_zonerecord" "dkim-1" {
+resource "gandi_zonerecord" "dap_ps_dkim_1" {
   zone   = "${gandi_zone.dap_ps.id}"
   name   = "zhncay5diy2lqdbq2ybrtqy7zaz5j5rb._domainkey"
   type   = "CNAME"
@@ -64,7 +64,7 @@ resource "gandi_zonerecord" "dkim-1" {
   values = ["zhncay5diy2lqdbq2ybrtqy7zaz5j5rb.dkim.amazonses.com"]
 }
 
-resource "gandi_zonerecord" "dkim-2" {
+resource "gandi_zonerecord" "dap_ps_dkim_2" {
   zone   = "${gandi_zone.dap_ps.id}"
   name   = "lkisrrqkfjmm64kksgqcwbiw6erk32do._domainkey"
   type   = "CNAME"
@@ -72,7 +72,7 @@ resource "gandi_zonerecord" "dkim-2" {
   values = ["lkisrrqkfjmm64kksgqcwbiw6erk32do.dkim.amazonses.com"]
 }
 
-resource "gandi_zonerecord" "dkim-3" {
+resource "gandi_zonerecord" "dap_ps_dkim_3" {
   zone   = "${gandi_zone.dap_ps.id}"
   name   = "bd6y7xtfpnfpuugoqmjjp7yf75ddyrv2._domainkey"
   type   = "CNAME"
@@ -80,7 +80,7 @@ resource "gandi_zonerecord" "dkim-3" {
   values = ["bd6y7xtfpnfpuugoqmjjp7yf75ddyrv2.dkim.amazonses.com"]
 }
 
-resource "gandi_zonerecord" "email" {
+resource "gandi_zonerecord" "dap_ps_mx" {
   zone   = "${gandi_zone.dap_ps.id}"
   name   = "@"
   type   = "MX"
@@ -88,9 +88,20 @@ resource "gandi_zonerecord" "email" {
   values = ["10 inbound-smtp.eu-west-1.amazonaws.com"]
 }
 
-/* RESOURCES ------------------------------------*/
-
-resource "aws_key_pair" "admin" {
-  key_name   = "admin-key"
-  public_key = "${file("admin.pub")}"
+resource "gandi_zonerecord" "dap_ps_mail_mx" {
+  zone   = "${gandi_zone.dap_ps.id}"
+  name   = "mail"
+  type   = "MX"
+  ttl    = 3600
+  values = ["10 feedback-smtp.eu-west-1.amazonses.com"]
 }
+
+resource "gandi_zonerecord" "dap_ps_mail_spf" {
+  zone   = "${gandi_zone.dap_ps.id}"
+  name   = "mail"
+  type   = "TXT"
+  ttl    = 3600
+  values = ["\"v= spf1 include:amazonses.com ~all\""]
+}
+
+/* RESOURCES ------------------------------------*/
