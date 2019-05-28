@@ -14,9 +14,9 @@ variable gandi_api_token {
 
 /* GENERAL --------------------------------------*/
 
-variable hosts_domain {
+variable hosts_subdomain {
   description = "Domain for hosts entries."
-  default     = "hosts.dap.ps"
+  default     = "hosts"
 }
 
 variable public_domain {
