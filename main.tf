@@ -42,39 +42,55 @@ resource "aws_s3_bucket" "tf-state" {
   }
 }
 
+/* SES EMail Fowarding --------------------------*/
+
+resource "gandi_zone" "dap_ps" {
+  name = "${var.public_domain} zone"
+}
+
+resource "gandi_zonerecord" "domain-verification" {
+  zone   = "${gandi_zone.dap_ps.id}"
+  name   = "_amazonses"
+  type   = "TXT"
+  ttl    = 3600
+  values = ["\"CmTCsJqXg8DadmhGCNOWsSCXPQ8FjHkbw0SwjqLBzLM=\""]
+}
+
+resource "gandi_zonerecord" "dkim-1" {
+  zone   = "${gandi_zone.dap_ps.id}"
+  name   = "zhncay5diy2lqdbq2ybrtqy7zaz5j5rb._domainkey"
+  type   = "CNAME"
+  ttl    = 3600
+  values = ["zhncay5diy2lqdbq2ybrtqy7zaz5j5rb.dkim.amazonses.com"]
+}
+
+resource "gandi_zonerecord" "dkim-2" {
+  zone   = "${gandi_zone.dap_ps.id}"
+  name   = "lkisrrqkfjmm64kksgqcwbiw6erk32do._domainkey"
+  type   = "CNAME"
+  ttl    = 3600
+  values = ["lkisrrqkfjmm64kksgqcwbiw6erk32do.dkim.amazonses.com"]
+}
+
+resource "gandi_zonerecord" "dkim-3" {
+  zone   = "${gandi_zone.dap_ps.id}"
+  name   = "bd6y7xtfpnfpuugoqmjjp7yf75ddyrv2._domainkey"
+  type   = "CNAME"
+  ttl    = 3600
+  values = ["bd6y7xtfpnfpuugoqmjjp7yf75ddyrv2.dkim.amazonses.com"]
+}
+
+resource "gandi_zonerecord" "email" {
+  zone   = "${gandi_zone.dap_ps.id}"
+  name   = "@"
+  type   = "MX"
+  ttl    = 3600
+  values = ["10 inbound-smtp.eu-west-1.amazonaws.com"]
+}
+
 /* RESOURCES ------------------------------------*/
 
 resource "aws_key_pair" "admin" {
   key_name   = "admin-key"
   public_key = "${file("admin.pub")}"
 }
-
-//data "aws_ami" "ubuntu" {
-//  most_recent = true
-//
-//  filter {
-//    name   = "name"
-//    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20190212.1"]
-//  }
-//
-//  owners = [99720109477]
-//}
-//
-//resource "aws_instance" "dev-dapps" {
-//  ami               = "${data.aws_ami.ubuntu.id}"
-//  instance_type     = "t3.medium"
-//  availability_zone = "${var.region}"
-//  key_name          = "${aws_key_pair.admin.key_name}"
-//
-//  tags = {
-//    Name = "node-01.${var.region}.${var.env}.test"
-//  }
-//}
-
-//resource "gandi_zonerecord" "main" {
-//  zone   = "dap.ps"
-//  name   = "dev"
-//  type   = "A"
-//  ttl    = 3600
-//  values = ["1.2.3.4"]
-//}

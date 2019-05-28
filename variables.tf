@@ -30,3 +30,8 @@ variable env {
   description = "Name of environment to create"
   default     = "dapps"
 }
+
+variable region {
+  description = "Name of region to deploy to"
+  default     = "us-east-1"
+}
