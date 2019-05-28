@@ -1,12 +1,17 @@
 {
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "arn:aws:iam::760668534108:user/terraform-user"
-            },
-            "Action": "s3:*",
-            "Resource": "arn:aws:s3:::dapps-terraform-state"
-        }
-    ]
+  "Id": "Policy1559061820811",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1559061813098",
+      "Action": "s3:*",
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::dapps-terraform-state",
+      "Principal": {
+        "AWS": [
+          "arn:aws:iam::760668534108:user/terraform-user"
+        ]
+      }
+    }
+  ]
 }
