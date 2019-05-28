@@ -47,6 +47,8 @@ data "aws_ami" "debian" {
     name   = "name"
     values = ["debian-stretch-hvm-arm64-gp2-2019-04-28-63458"]
   }
+
+  owners = [379101102735]
 }
 
 //resource "aws_instance" "dev-dapps" {
