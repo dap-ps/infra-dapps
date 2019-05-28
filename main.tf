@@ -105,8 +105,8 @@ resource "gandi_zonerecord" "dap_ps_mail_spf" {
 }
 
 resource "gandi_domainattachment" "dap_ps" {
-    domain = "${var.public_domain}"
-    zone   = "${gandi_zone.dap_ps_zone.id}"
+  domain = "${var.public_domain}"
+  zone   = "${gandi_zone.dap_ps_zone.id}"
 }
 
 /* MAIL SITE ------------------------------------*/
@@ -123,4 +123,39 @@ resource "gandi_zonerecord" "dap_ps_site" {
     "185.199.110.153",
     "185.199.111.153",
   ]
+}
+
+/* RESOURCES ------------------------------------*/
+
+resource "aws_key_pair" "admin" {
+  key_name   = "admin-key"
+  public_key = "${file("admin.pub")}"
+}
+
+data "aws_ami" "ubuntu" {
+  filter {
+    name   = "name"
+    values = ["${var.image_name}"]
+  }
+
+  owners = ["099720109477"]
+}
+
+resource "aws_instance" "dap_ps_dev" {
+  ami               = "${data.aws_ami.ubuntu.id}"
+  instance_type     = "${var.instance_type}"
+  availability_zone = "${var.zone}"
+  key_name          = "${aws_key_pair.admin.key_name}"
+
+  tags = {
+    Name = "node-01.${var.zone}.${var.env}.test"
+  }
+}
+
+resource "gandi_zonerecord" "main" {
+  zone   = "${gandi_zone.dap_ps_zone.id}"
+  name   = "dev"
+  type   = "A"
+  ttl    = 3600
+  values = ["${aws_instance.dap_ps_dev.public_ip}"]
 }

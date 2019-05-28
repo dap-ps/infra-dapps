@@ -31,7 +31,17 @@ variable env {
   default     = "dapps"
 }
 
-variable region {
-  description = "Name of region to deploy to"
-  default     = "us-east-1"
+variable zone {
+  description = "Name of availability zone to deploy to."
+  default     = "us-east-1a"
+}
+
+variable image_name {
+  description = "Name of AMI image to use."
+  default     = "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20190212.1"
+}
+
+variable instance_type {
+  description = "Name of instance type to use"
+  default     = "t3.medium"
 }
