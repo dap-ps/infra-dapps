@@ -39,3 +39,21 @@ resource "aws_s3_bucket" "tf-state" {
 }
 
 /* RESOURCES ------------------------------------*/
+
+data "aws_ami" "debian" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["debian-stretch-hvm-arm64-gp2-2019-04-28-63458"]
+  }
+}
+
+//resource "aws_instance" "dev-dapps" {
+//  ami           = "${data.aws_ami.ubuntu.id}"
+//  instance_type = "t3.medium"
+//
+//  tags = {
+//    Name = "${var.name}-${format("%02d", count.index+1)}.${local.dc}.${var.env}.${local.stage}"
+//  }
+//}

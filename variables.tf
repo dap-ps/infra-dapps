@@ -19,3 +19,10 @@ variable public_domain {
   description = "Public DNS Domain address"
   default     = "dap.ps"
 }
+
+/* ENVIRONMENT ----------------------------------*/
+
+variable env {
+  description = "Name of environment to create"
+  default     = "dapps"
+}
