@@ -45,3 +45,8 @@ variable instance_type {
   description = "Name of instance type to use"
   default     = "t3.medium"
 }
+
+variable ssh_user {
+  description = "Default user to use when accesing host via SSH."
+  default     = "ubuntu"
+}
