@@ -45,7 +45,7 @@ resource "aws_s3_bucket" "tf-state" {
 /* SES EMail Fowarding --------------------------*/
 
 resource "gandi_zone" "dap_ps_zone" {
-  name = "${var.public_domain} ses zone"
+  name = "${var.public_domain} zone"
 }
 
 resource "gandi_zonerecord" "domain-verification" {
@@ -109,4 +109,18 @@ resource "gandi_domainattachment" "dap_ps" {
     zone   = "${gandi_zone.dap_ps_zone.id}"
 }
 
-/* RESOURCES ------------------------------------*/
+/* MAIL SITE ------------------------------------*/
+
+/* This is the main site hosted on GitHub */
+resource "gandi_zonerecord" "dap_ps_site" {
+  zone   = "${gandi_zone.dap_ps_zone.id}"
+  name   = "mail"
+  type   = "TXT"
+  ttl    = 3600
+  values = [
+    "185.199.108.153",
+    "185.199.109.153",
+    "185.199.110.153",
+    "185.199.111.153",
+  ]
+}
