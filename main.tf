@@ -45,7 +45,7 @@ data "aws_ami" "debian" {
 
   filter {
     name   = "name"
-    values = ["debian-stretch-hvm-arm64-gp2-2019-04-28-63458"]
+    values = ["debian-stretch-hvm-x86_64-gp2-2019-05-14-84483"]
   }
 
   owners = [379101102735]
