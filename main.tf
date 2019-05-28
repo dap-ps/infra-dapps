@@ -141,11 +141,44 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"]
 }
 
+resource "aws_security_group" "dap_ps_dev" {
+  name = "default-webserver"
+  description = "Allow SSH, HTTP and HTTPS"
+
+  ingress {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port = 443
+    to_port = 443
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_instance" "dap_ps_dev" {
   ami               = "${data.aws_ami.ubuntu.id}"
   instance_type     = "${var.instance_type}"
   availability_zone = "${var.zone}"
   key_name          = "${aws_key_pair.admin.key_name}"
+
+  security_groups = ["${aws_security_group.dap_ps_dev.name}"]
 
   tags = {
     Name = "node-01.${var.zone}.${var.env}.test"
