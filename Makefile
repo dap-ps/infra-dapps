@@ -54,6 +54,7 @@ secrets:
 # secrets extracted from password-store\n\
 aws_access_key  = \"$(shell pass cloud/AWS/access-key)\"\n\
 aws_secret_key  = \"$(shell pass cloud/AWS/secret-key)\"\n\
+gandi_api_token = \"$(shell pass cloud/Gandi/api-token)\"\n\
 " > terraform.tfvars
 
 cleanup:
