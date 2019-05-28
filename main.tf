@@ -6,21 +6,16 @@ provider "aws" {
   secret_key = "${var.aws_secret_key}"
 }
 
-//provider "gandi" {
-//  key = "<the API key>"
-//  sharing_id = "<the sharing_id>"
-//}
-
 /* DATA -----------------------------------------*/
 
-//terraform {
-//  backend "s3" {
-//    bucket  = "dapps-terraform-state"
-//    key     = "infra-dapps"
-//    region  = "us-east-2"
-//    encrypt = true
-//  }
-//}
+terraform {
+  backend "s3" {
+    bucket     = "dapps-terraform-state"
+    key        = "infra-dapps"
+    region     = "us-east-1"
+    encrypt    = true
+  }
+}
 
 /* INVENTORY ------------------------------------*/
 
