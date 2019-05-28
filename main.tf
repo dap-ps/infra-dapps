@@ -183,6 +183,23 @@ resource "aws_instance" "dap_ps_dev" {
   tags = {
     Name = "node-01.${var.zone}.${var.env}.test"
   }
+
+  /* bootstraping access for later Ansible use */
+  //provisioner "ansible" {
+  //  plays {
+  //    playbook = {
+  //      file_path = "${path.cwd}/ansible/bootstrap.yml"
+  //    }
+  //    groups   = ["dap-ps-dev"]
+  //    extra_vars = {
+  //      hostname         = "node-01.${var.zone}.${var.env}.test"
+  //      ansible_ssh_user = "${var.ssh_user}"
+  //      data_center      = "${var.zone}"
+  //      stage            = "${terraform.workspace}"
+  //      env              = "${var.env}"
+  //    }
+  //  }
+  //}
 }
 
 resource "gandi_zonerecord" "dap_ps_dev" {
