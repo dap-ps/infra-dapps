@@ -1,2 +1,3 @@
 ---
 bootstrap__consul_enabled: false
+bootstrap__tinc_enabled: false
