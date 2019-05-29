@@ -1,0 +1,8 @@
+---
+# general container config
+cont_state: started
+cont_recreate: false
+cont_restart: false
+
+# Root password
+bootstrap__root_pass: '{{lookup("passwordstore", "hosts/admin-pass")}}'
