@@ -112,18 +112,18 @@ resource "gandi_domainattachment" "dap_ps" {
 /* MAIL SITE ------------------------------------*/
 
 /* This is the main site hosted on GitHub */
-//resource "gandi_zonerecord" "dap_ps_site" {
-//  zone   = "${gandi_zone.dap_ps_zone.id}"
-//  name   = "mail"
-//  type   = "TXT"
-//  ttl    = 3600
-//  values = [
-//    "185.199.108.153",
-//    "185.199.109.153",
-//    "185.199.110.153",
-//    "185.199.111.153",
-//  ]
-//}
+resource "gandi_zonerecord" "dap_ps_site" {
+  zone   = "${gandi_zone.dap_ps_zone.id}"
+  name   = "@"
+  type   = "A"
+  ttl    = 3600
+  values = [
+    "185.199.108.153",
+    "185.199.109.153",
+    "185.199.110.153",
+    "185.199.111.153",
+  ]
+}
 
 /* RESOURCES ------------------------------------*/
 
