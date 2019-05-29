@@ -65,7 +65,7 @@ resource "aws_instance" "dap_ps_dev" {
       playbook = {
         file_path = "${path.cwd}/ansible/bootstrap.yml"
       }
-      groups   = ["dap-ps-dev"]
+      groups   = ["${var.group}"]
       extra_vars = {
         hostname         = "node-01.${var.zone}.${var.env}.test"
         ansible_ssh_user = "${var.ssh_user}"
@@ -91,4 +91,19 @@ resource "gandi_zonerecord" "main" {
   type   = "A"
   ttl    = 3600
   values = ["${aws_instance.dap_ps_dev.public_ip}"]
+}
+
+resource "ansible_host" "main" {
+  inventory_hostname = "${aws_instance.dap_ps_dev.tags.Name}"
+  groups = ["${var.group}", "${var.zone}"]
+  vars {
+    ansible_host = "${aws_instance.dap_ps_dev.public_ip}"
+    hostname     = "${aws_instance.dap_ps_dev.tags.Name}"
+    region       = "${aws_instance.dap_ps_dev.availability_zone}"
+    dns_entry    = "${aws_instance.dap_ps_dev.tags.Name}.${var.hosts_subdomain}.${var.public_domain}"
+    dns_domain   = "${var.hosts_subdomain}"
+    data_center  = "${var.zone}"
+    stage        = "${terraform.workspace}"
+    env          = "${var.env}"
+  }
 }

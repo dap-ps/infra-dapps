@@ -26,6 +26,11 @@ variable public_domain {
 
 /* ENVIRONMENT ----------------------------------*/
 
+variable group {
+  description = "Name of Ansible group"
+  default     = "dap-ps-dev"
+}
+
 variable env {
   description = "Name of environment to create"
   default     = "dapps"
