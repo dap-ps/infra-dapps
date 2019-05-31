@@ -5,6 +5,8 @@
 
 /* SES S3 Bucket --------------------------------*/
 
+data "aws_caller_identity" "current" {}
+
 resource "aws_s3_bucket" "ses-forwarder-emails" {
   bucket = "ses-forwarder-emails"
   acl    = "private"
@@ -27,7 +29,7 @@ resource "aws_s3_bucket" "ses-forwarder-emails" {
          "Resource": "arn:aws:s3:::${var.ses_forwarder_bucket_name}/*",
          "Condition": {
             "StringEquals": {
-               "aws:Referer": "${var.ses_forwarder_admin_account_arn}"
+               "aws:Referer": "${data.aws_caller_identity.current.account_id}"
             }
          }
       }
@@ -39,6 +41,8 @@ EOF
     prevent_destroy = true
   }
 }
+
+/* SES Configuration --------------------------------*/
 
 resource "aws_iam_role" "ses_lambda_role" {
   name = "LambdaSesForwarder"
@@ -119,9 +123,15 @@ resource "aws_ses_receipt_rule" "ses_forwarder" {
   enabled       = true
   scan_enabled  = true
 
+  s3_action {
+    bucket_name       = "${var.ses_forwarder_bucket_name}"
+    object_key_prefix = "${var.public_domain}/"
+    position          = 1
+  }
+
   lambda_action {
     function_arn    = "${aws_lambda_function.ses_forwarder.arn}"
     invocation_type = "Event"
-    position        = 1
+    position        = 2
   }
 }

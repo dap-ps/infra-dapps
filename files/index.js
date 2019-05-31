@@ -30,7 +30,7 @@ console.log("AWS Lambda SES Forwarder // @arithmetric // Version 4.2.0");
 //   To match a mailbox name on all domains, use a key without the "at" symbol
 //   and domain part of an email address (i.e. `info`).
 var defaultConfig = {
-  fromEmail: "noreply@dap.ps",
+  fromEmail: "",
   subjectPrefix: "",
   emailBucket: "ses-forwarder-emails",
   emailKeyPrefix: "dap.ps/",
