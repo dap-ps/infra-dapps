@@ -48,7 +48,7 @@ resource "gandi_zonerecord" "dap_ps_mx" {
   name   = "@"
   type   = "MX"
   ttl    = 3600
-  values = ["10 inbound-smtp.eu-west-1.amazonaws.com."]
+  values = ["10 inbound-smtp.eu-east-1.amazonaws.com."]
 }
 
 resource "gandi_zonerecord" "dap_ps_mail_mx" {
