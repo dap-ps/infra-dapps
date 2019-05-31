@@ -16,31 +16,31 @@ resource "gandi_zonerecord" "domain-verification" {
   name   = "_amazonses"
   type   = "TXT"
   ttl    = 3600
-  values = ["\"CmTCsJqXg8DadmhGCNOWsSCXPQ8FjHkbw0SwjqLBzLM=\""]
+  values = ["\"ay9a+52dCvn0fJb9YMTQXHeGf3SL3/l3vxWXCDjzJzY=\""]
 }
 
 resource "gandi_zonerecord" "dap_ps_dkim_1" {
   zone   = "${gandi_zone.dap_ps_zone.id}"
-  name   = "zhncay5diy2lqdbq2ybrtqy7zaz5j5rb._domainkey"
+  name   = "mnkff5wcdz6ce7rzzcsu3lnapq6kfmmn._domainkey"
   type   = "CNAME"
   ttl    = 3600
-  values = ["zhncay5diy2lqdbq2ybrtqy7zaz5j5rb.dkim.amazonses.com"]
+  values = ["mnkff5wcdz6ce7rzzcsu3lnapq6kfmmn.dkim.amazonses.com."]
 }
 
 resource "gandi_zonerecord" "dap_ps_dkim_2" {
   zone   = "${gandi_zone.dap_ps_zone.id}"
-  name   = "lkisrrqkfjmm64kksgqcwbiw6erk32do._domainkey"
+  name   = "mnd3y3oanybpyjpirxkag43nvxlk2xeh._domainkey"
   type   = "CNAME"
   ttl    = 3600
-  values = ["lkisrrqkfjmm64kksgqcwbiw6erk32do.dkim.amazonses.com"]
+  values = ["mnd3y3oanybpyjpirxkag43nvxlk2xeh.dkim.amazonses.com."]
 }
 
 resource "gandi_zonerecord" "dap_ps_dkim_3" {
   zone   = "${gandi_zone.dap_ps_zone.id}"
-  name   = "bd6y7xtfpnfpuugoqmjjp7yf75ddyrv2._domainkey"
+  name   = "ldcpr3o4ktcsswfx5bc7t5plr6pvnxfj._domainkey"
   type   = "CNAME"
   ttl    = 3600
-  values = ["bd6y7xtfpnfpuugoqmjjp7yf75ddyrv2.dkim.amazonses.com"]
+  values = ["ldcpr3o4ktcsswfx5bc7t5plr6pvnxfj.dkim.amazonses.com."]
 }
 
 resource "gandi_zonerecord" "dap_ps_mx" {
