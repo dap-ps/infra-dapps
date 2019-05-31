@@ -55,3 +55,15 @@ variable ssh_user {
   description = "Default user to use when accesing host via SSH."
   default     = "ubuntu"
 }
+
+/* SES FORWARDER --------------------------------*/
+
+variable ses_forwarder_bucket_name {
+  description = "Name of bucket to use for storing forwarded emails"
+  default     = "ses-forwarder-emails"
+}
+
+variable ses_forwarder_admin_account_arn {
+  description = "Name of bucket to use for storing forwarded emails"
+  default     = "arn:aws:iam::760668534108:user/jakubgs"
+}

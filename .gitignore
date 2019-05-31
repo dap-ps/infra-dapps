@@ -10,3 +10,5 @@
 ansible/files/*
 
 google-cloud.json
+
+files/sesforwarder.zip
