@@ -1,3 +1,5 @@
+/* Validated Domain -----------------------------*/
+
 resource "aws_ses_domain_identity" "dap_ps" {
   domain = "${var.public_domain}"
 }
@@ -42,4 +44,14 @@ resource "gandi_zonerecord" "dap_ps_dkim" {
   count  = 3
   name   = "${element(aws_ses_domain_dkim.dap_ps.dkim_tokens, count.index)}._domainkey"
   values = ["${element(aws_ses_domain_dkim.dap_ps.dkim_tokens, count.index)}.dkim.amazonses.com."]
+}
+
+/* Validated Emails -----------------------------*/
+
+resource "aws_ses_email_identity" "jakub" {
+  email = "jakub@status.im"
+}
+
+resource "aws_ses_email_identity" "andy" {
+  email = "andy@status.im"
 }
