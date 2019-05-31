@@ -31,7 +31,7 @@ resource "aws_s3_bucket" "tf-state" {
     Name = "Terraform State Store"
   }
 
-  policy = "${file("s3policy.json")}"
+  policy = "${file("files/s3-policy.json")}"
 
   versioning {
     enabled = true
