@@ -3,6 +3,8 @@
  * https://github.com/arithmetric/aws-lambda-ses-forwarder
  **/
 
+/* SES S3 Bucket --------------------------------*/
+
 resource "aws_s3_bucket" "ses-forwarder-emails" {
   bucket = "ses-forwarder-emails"
   acl    = "private"
