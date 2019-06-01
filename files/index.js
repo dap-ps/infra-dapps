@@ -36,7 +36,7 @@ var defaultConfig = {
   emailKeyPrefix: "dap.ps/",
   forwardMapping: {
     "@dap.ps": [
-      "jakub@status.im",
+      "andy@status.im",
     ],
   }
 };
