@@ -19,7 +19,7 @@ resource "gandi_zonerecord" "dap_ps_mx" {
   values = ["10 inbound-smtp.us-east-1.amazonaws.com."]
 }
 
-/* MAIL SITE ------------------------------------*/
+/* MAIN SITE ------------------------------------*/
 
 /**
  * This is the main site hosted on GitHub:
@@ -36,4 +36,14 @@ resource "gandi_zonerecord" "dap_ps_site" {
     "185.199.110.153",
     "185.199.111.153",
   ]
+}
+
+/* DEV SITE -------------------------------------*/
+
+resource "gandi_zonerecord" "dev_dap_ps_site" {
+  zone   = "${gandi_zone.dap_ps_zone.id}"
+  name   = "dev"
+  type   = "CNAME"
+  ttl    = 3600
+  values = ["${aws_elastic_beanstalk_environment.dev_dap_ps.cname}."]
 }
