@@ -56,6 +56,13 @@ variable ssh_user {
   default     = "ubuntu"
 }
 
+/* DEV Dap.ps -----------------------------------*/
+
+variable dap_ps_app_bucket_name {
+  description = "Name of bucket to which we deploy the dap.ps dapp"
+  default     = "dev-dap-ps-app"
+}
+
 /* SES FORWARDER --------------------------------*/
 
 variable ses_forwarder_bucket_name {

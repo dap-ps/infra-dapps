@@ -21,7 +21,10 @@ resource "gandi_zonerecord" "dap_ps_mx" {
 
 /* MAIL SITE ------------------------------------*/
 
-/* This is the main site hosted on GitHub */
+/**
+ * This is the main site hosted on GitHub:
+ * https://github.com/dap-ps/discover
+ **/
 resource "gandi_zonerecord" "dap_ps_site" {
   zone   = "${gandi_zone.dap_ps_zone.id}"
   name   = "@"
