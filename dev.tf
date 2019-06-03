@@ -9,7 +9,7 @@ resource "aws_iam_group" "deploy" {
 }
 
 resource "aws_iam_user" "deploy" {
-  name = "dap-ps-deploy"
+  name = "${local.name}-deploy"
   tags = {
     Description = "User for deploying the dap.ps Elastic Beanstalk app"
   }
