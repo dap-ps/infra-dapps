@@ -40,7 +40,7 @@ output "deploy_access_key" {
 output "deploy_secret_key" {
   value = "${aws_iam_access_key.deploy.encrypted_secret}"
 }
- */
+*/
 
 /* ROLES ----------------------------------------*/
 
