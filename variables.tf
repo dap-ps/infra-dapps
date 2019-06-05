@@ -48,7 +48,7 @@ variable image_name {
 
 variable instance_type {
   description = "Name of instance type to use"
-  default     = "t3.medium"
+  default     = "t2.micro"
 }
 
 variable ssh_user {
