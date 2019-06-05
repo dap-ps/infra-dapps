@@ -1,5 +1,10 @@
 /* SMTP Cerdentials -----------------------------*/
 
+/**
+ * For more details see:
+ * https://docs.aws.amazon.com/ses/latest/DeveloperGuide/smtp-connect.html
+ **/
+
 resource "aws_iam_user" "smtp" {
   name = "ses-smtp-user.dap-ps"
 }
