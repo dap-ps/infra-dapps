@@ -1,10 +1,20 @@
 ---
 - name: Configure MongoDB
   hosts: mongodb
+  vars:
+    backup_name: mongodb-backups
+    backup_number: 1
+    backup_hour: 4
+    backup_day: '*'
+    backup_directory: '/var/tmp/backups'
+    backup_base_domain: 's3.amazonaws.com'
+    backup_bucket_name: 's3://dev-dap-ps-mongodb-backups'
+    backup_access_key: '{{lookup("passwordstore", "cloud/aws/s3/mongodb-backups/access-key")}}'
+    backup_secret_key: '{{lookup("passwordstore", "cloud/aws/s3/mongodb-backups/secret-key")}}'
   roles:
-    - role: mongodb
+    - mongodb
+    - infra-role-s3cmd-backup
   post_tasks:
     - name: Here's the MongoDB URI string
       debug:
         msg: 'mongodb://{{ mongo_db_user }}:{{ mongo_db_pass }}@{{ dns_entry }}:{{ mongo_cont_port }}/{{ mongo_db_name }}'
-

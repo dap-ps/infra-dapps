@@ -12,6 +12,10 @@ mongo_db_name: ~
 mongo_db_user: ~
 mongo_db_pass: ~
 
+# path for mongodump backups
+mongo_backup_path: '/var/tmp/backups'
+mongo_backup_script: '/var/lib/backups/{{ mongo_cont_name | replace("-", "_") }}_dump.sh'
+
 # general container config
 cont_state: started
 cont_recreate: false

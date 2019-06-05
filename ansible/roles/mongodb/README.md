@@ -10,6 +10,15 @@ mongo_db_user: test
 mongo_db_pass: test-user-password
 ```
 
+# Backups
+
+Setup of backups created via the [`mongodump`](https://docs.mongodb.com/manual/reference/program/mongodump/#bin.mongodump) utility.
+
+The backups end up in:
+```yaml
+mongo_backup_path: '/var/tmp/backups'
+```
+
 # Known Issues
 
 __TODO__
