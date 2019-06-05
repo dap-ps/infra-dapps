@@ -59,7 +59,7 @@ resource "aws_instance" "mongodb" {
       }
       groups   = ["${var.group}"]
       extra_vars = {
-        hostname         = "node-01.${var.zone}.${var.env}.test"
+        hostname         = "node-01.${var.zone}.mongodb.test"
         ansible_ssh_user = "${var.ssh_user}"
         data_center      = "${var.zone}"
         stage            = "${terraform.workspace}"
@@ -79,7 +79,7 @@ resource "gandi_zonerecord" "mongodb" {
 
 resource "ansible_host" "main" {
   inventory_hostname = "${aws_instance.mongodb.tags.Name}"
-  groups = ["${var.group}", "${var.zone}"]
+  groups = ["mongodb", "${var.group}", "${var.zone}"]
   vars {
     ansible_host = "${aws_instance.mongodb.public_ip}"
     hostname     = "${aws_instance.mongodb.tags.Name}"

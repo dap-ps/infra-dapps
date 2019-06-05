@@ -1,0 +1,26 @@
+---
+- name: Create data directory
+  file:
+    path: '{{ mongo_cont_vol }}/data'
+    state: directory
+    owner: '{{ mongo_host_uid }}'
+    group: docker
+    recurse: true
+
+- name: Start the MongoDB container
+  docker_container:
+    name: '{{ mongo_cont_name }}'
+    image: '{{ mongo_cont_image }}'
+    pull: true
+    restart_policy: always
+    state: '{{ cont_state }}'
+    recreate: '{{ cont_recreate }}'
+    restart: '{{ cont_restart }}'
+    env:
+      ONGO_INITDB_DATABASE: '{{ mongo_db_name | mandatory }}'
+      MONGO_INITDB_ROOT_USERNAME: '{{ mongo_db_user | mandatory }}'
+      MONGO_INITDB_ROOT_PASSWORD: '{{ mongo_db_pass | mandatory }}'
+    ports:
+      - '0.0.0.0:{{ mongo_cont_port }}:{{ mongo_cont_port }}/tcp'
+    volumes:
+      - '{{ mongo_cont_vol }}/data:/data/db'

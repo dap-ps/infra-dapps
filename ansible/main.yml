@@ -1,0 +1,10 @@
+---
+- name: Configure MongoDB
+  hosts: mongodb
+  roles:
+    - role: mongodb
+  post_tasks:
+    - name: Here's the MongoDB URI string
+      debug:
+        msg: 'mongodb://{{ mongo_db_user }}:{{ mongo_db_pass }}@{{ dns_entry }}:{{ mongo_cont_port }}/{{ mongo_db_name }}'
+

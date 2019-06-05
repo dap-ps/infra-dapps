@@ -1,0 +1,12 @@
+---
+- name: Enable MongoDB port
+  iptables:
+    comment: '{{ mongo_cont_name }}'
+    action: insert
+    chain: DOCKER-USER
+    jump: ACCEPT
+    source: '0.0.0.0/0'
+    protocol: 'tcp'
+    destination_port: '{{ mongo_cont_port }}'
+  notify:
+    - Save iptables rules
