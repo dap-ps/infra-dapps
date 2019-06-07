@@ -17,7 +17,7 @@
     recreate: '{{ cont_recreate }}'
     restart: '{{ cont_restart }}'
     env:
-      ONGO_INITDB_DATABASE: '{{ mongo_db_name | mandatory }}'
+      MONGO_INITDB_DATABASE: '{{ mongo_db_name | mandatory }}'
       MONGO_INITDB_ROOT_USERNAME: '{{ mongo_db_user | mandatory }}'
       MONGO_INITDB_ROOT_PASSWORD: '{{ mongo_db_pass | mandatory }}'
     ports:
