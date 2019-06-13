@@ -35,6 +35,9 @@ var defaultConfig = {
   emailBucket: "ses-forwarder-emails",
   emailKeyPrefix: "dap.ps/",
   forwardMapping: {
+    "approval@dap.ps": [
+      "dapps-approvals@status.im",
+    ],
     "@dap.ps": [
       "andy@status.im",
     ],
