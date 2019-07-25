@@ -41,3 +41,13 @@ resource "aws_s3_bucket" "tf-state" {
     prevent_destroy = true
   }
 }
+
+/* ENVIRONMENTS ---------------------------------*/
+
+module "dev" {
+  source        = "./modules/dev"
+  name          = "dev-dap-ps"
+  gandi_zone_id = "${gandi_zone.dap_ps_zone.id}"
+  dns_domain    = "dap.ps"
+  dns_entry     = "dev"
+}

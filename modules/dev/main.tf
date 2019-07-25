@@ -1,15 +1,11 @@
-locals {
-  name = "dev-dap-ps"
-}
-
 /* ACCESS ---------------------------------------*/
 
 resource "aws_iam_group" "deploy" {
-  name   = "${local.name}-deploy"
+  name   = "${var.name}-deploy"
 }
 
 resource "aws_iam_user" "deploy" {
-  name = "${local.name}-deploy"
+  name = "${var.name}-deploy"
   tags = {
     Description = "User for deploying the dap.ps Elastic Beanstalk app"
   }
@@ -45,12 +41,12 @@ output "deploy_secret_key" {
 /* ROLES ----------------------------------------*/
 
 resource "aws_iam_instance_profile" "main" {
-  name  = "${local.name}"
+  name  = "${var.name}"
   role = "${aws_iam_role.main.name}"
 }
 
 resource "aws_iam_role" "main" {
-  name = "${local.name}"
+  name = "${var.name}"
 
   assume_role_policy = <<EOF
 {
@@ -70,7 +66,7 @@ EOF
 }
 
 resource "aws_iam_policy_attachment" "AWSElasticBeanstalkWebTier" {
-  name       = "${local.name}-AWSElasticBeanstalkWebTier"
+  name       = "${var.name}-AWSElasticBeanstalkWebTier"
   roles      = ["${aws_iam_role.main.name}"]
   policy_arn ="arn:aws:iam::aws:policy/AWSElasticBeanstalkWebTier"
 }
@@ -92,4 +88,14 @@ resource "aws_elastic_beanstalk_environment" "dev_dap_ps" {
     name = "IamInstanceProfile"
     value = "${aws_iam_instance_profile.main.name}"
   }
+}
+
+/* DNS ------------------------------------------*/
+
+resource "gandi_zonerecord" "dev_dap_ps_site" {
+  zone   = "${var.gandi_zone_id}"
+  name   = "${var.dns_entry}"
+  type   = "CNAME"
+  ttl    = 3600
+  values = ["${aws_elastic_beanstalk_environment.dev_dap_ps.cname}."]
 }
