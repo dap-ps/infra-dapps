@@ -53,6 +53,13 @@ resource "gandi_domainattachment" "dap_ps" {
   zone   = "${gandi_zone.dap_ps_zone.id}"
 }
 
+/* ACCESS ---------------------------------------*/
+
+resource "aws_key_pair" "admin" {
+  key_name   = "admin-key"
+  public_key = "${file("files/admin.pub")}"
+}
+
 /* ENVIRONMENTS ---------------------------------*/
 
 module "dev" {
@@ -60,7 +67,9 @@ module "dev" {
   name          = "dev-dap-ps"
   gandi_zone_id = "${gandi_zone.dap_ps_zone.id}"
   dns_domain    = "dap.ps"
-  dns_entry     = "dev"
+  stage         = "dev"
+  stack_name    = "${var.stack_name}"
+  keypair_name  = "${aws_key_pair.admin.key_name}"
 }
 
 module "prod" {
@@ -68,7 +77,7 @@ module "prod" {
   name          = "prod-dap-ps"
   gandi_zone_id = "${gandi_zone.dap_ps_zone.id}"
   dns_domain    = "dap.ps"
-  dns_entry     = "@" /* just means use `dap.ps` */
+  dns_entry     = "prod" /* just means use `dap.ps` */
 }
 
 /* MAIN SITE ------------------------------------*/

@@ -1,8 +1,3 @@
-resource "aws_key_pair" "admin" {
-  key_name   = "admin-key"
-  public_key = "${file("files/admin.pub")}"
-}
-
 data "aws_ami" "ubuntu" {
   filter {
     name   = "name"
