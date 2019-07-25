@@ -2,6 +2,7 @@
 *.tfstate
 *.tfstate.d/
 *.tfstate.backup
+*.tfstate.*.backup
 *.tfvars
 *.retry
 
