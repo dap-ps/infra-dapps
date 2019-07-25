@@ -46,6 +46,16 @@ resource "gandi_zonerecord" "dap_ps_dkim" {
   values = ["${element(aws_ses_domain_dkim.dap_ps.dkim_tokens, count.index)}.dkim.amazonses.com."]
 }
 
+/* SES EMail Fowarding --------------------------*/
+
+resource "gandi_zonerecord" "dap_ps_mx" {
+  zone   = "${gandi_zone.dap_ps_zone.id}"
+  name   = "@"
+  type   = "MX"
+  ttl    = 3600
+  values = ["10 inbound-smtp.us-east-1.amazonaws.com."]
+}
+
 /* Validated Emails -----------------------------*/
 
 resource "aws_ses_email_identity" "jakub" {
