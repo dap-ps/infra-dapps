@@ -2,6 +2,30 @@ locals {
   fqdn = "${var.stage}.${var.dns_domain}"
 }
 
+/* SSL Certificate ------------------------------*/
+
+resource "aws_acm_certificate" "main" {
+  domain_name               = "${var.stage}.${var.dns_domain}"
+  /* TODO support SAN of dap.ps */
+  subject_alternative_names = []
+  validation_method         = "DNS"
+}
+
+resource "gandi_zonerecord" "prod_cert_verification" {
+  zone   = "${var.gandi_zone_id}"
+  name   = "${replace(aws_acm_certificate.main.domain_validation_options.0.resource_record_name, ".${var.dns_domain}.", "")}"
+  type   = "${aws_acm_certificate.main.domain_validation_options.0.resource_record_type}"
+  ttl    = 300
+  values = ["${aws_acm_certificate.main.domain_validation_options.0.resource_record_value}"]
+}
+
+resource "aws_acm_certificate_validation" "main" {
+  certificate_arn         = "${aws_acm_certificate.main.arn}"
+  validation_record_fqdns = ["${gandi_zonerecord.prod_cert_verification.name}.${var.dns_domain}"]
+}
+
+/* Resources ------------------------------------*/
+
 data "aws_availability_zones" "available" {}
 
 module "vpc" {
@@ -33,18 +57,19 @@ module "eb_application" {
 }
 
 module "eb_environment" {
-  source              = "git::https://github.com/cloudposse/terraform-aws-elastic-beanstalk-environment.git?ref=0.13.0"
-  description         = "Dapp Discovery Store - ${local.fqdn}"
-  name                = "${replace(var.dns_domain, ".", "-")}-eb-app"
-  stage               = "${var.stage}"
-  namespace           = ""
-  solution_stack_name = "${var.stack_name}"
-  keypair             = "${var.keypair_name}"
-  app                 = "${module.eb_application.app_name}"
-  vpc_id              = "${module.vpc.vpc_id}"
-  public_subnets      = "${module.subnets.public_subnet_ids}"
-  private_subnets     = "${module.subnets.private_subnet_ids}"
-  security_groups     = ["${module.vpc.vpc_default_security_group_id}"]
+  source                       = "git::https://github.com/cloudposse/terraform-aws-elastic-beanstalk-environment.git?ref=0.13.0"
+  description                  = "Dapp Discovery Store - ${local.fqdn}"
+  name                         = "${replace(var.dns_domain, ".", "-")}-eb-app"
+  stage                        = "${var.stage}"
+  namespace                    = ""
+  solution_stack_name          = "${var.stack_name}"
+  keypair                      = "${var.keypair_name}"
+  loadbalancer_certificate_arn = "${aws_acm_certificate.main.arn}"
+  app                          = "${module.eb_application.app_name}"
+  vpc_id                       = "${module.vpc.vpc_id}"
+  public_subnets               = "${module.subnets.public_subnet_ids}"
+  private_subnets              = "${module.subnets.private_subnet_ids}"
+  security_groups              = ["${module.vpc.vpc_default_security_group_id}"]
 }
 
 /* DNS ------------------------------------------*/
