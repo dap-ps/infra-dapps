@@ -26,3 +26,15 @@ variable "max_availability_zones" {
   description = "Maximum number of availability zones that can be used in Subnet."
   default     = "2"
 }
+
+/* Scaling --------------------------------------*/
+
+variable "autoscale_min" {
+  description = "Minimum instances autoscaling will create."
+  default     = 1
+}
+
+variable "autoscale_max" {
+  description = "Maximum instances autoscaling will create."
+  default = 2
+}

@@ -1,5 +1,3 @@
-/* ACCESS ---------------------------------------*/
-
 resource "aws_iam_group" "deploy" {
   name   = "${var.name}-deploy"
 }

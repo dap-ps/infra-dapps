@@ -70,6 +70,9 @@ module "dev" {
   stage         = "dev"
   stack_name    = "${var.stack_name}"
   keypair_name  = "${aws_key_pair.admin.key_name}"
+  /* Scaling */
+  autoscale_min = 1
+  autoscale_max = 2
 }
 
 module "prod" {
