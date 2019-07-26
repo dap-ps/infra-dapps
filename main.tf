@@ -63,7 +63,7 @@ resource "aws_key_pair" "admin" {
 /* ENVIRONMENTS ---------------------------------*/
 
 module "dev" {
-  source        = "./modules/dev"
+  source        = "./modules/aws-eb-env"
   name          = "dev-dap-ps"
   gandi_zone_id = "${gandi_zone.dap_ps_zone.id}"
   dns_domain    = "dap.ps"
