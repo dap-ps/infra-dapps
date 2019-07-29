@@ -86,6 +86,11 @@ variable dap_ps_smtp_pass {
   description = "Password for accessing AWS SES SMTP endpoint."
 }
 
+variable dap_ps_db_uri {
+  description = "An URI for MongoDB database including auth information."
+  /* https://docs.mongodb.com/manual/reference/connection-string/ */
+}
+
 /* SES FORWARDER --------------------------------*/
 
 variable ses_forwarder_bucket_name {

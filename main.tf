@@ -74,6 +74,9 @@ locals {
     ADMIN_USER     = "${var.dap_ps_admin_user}"
     ADMIN_PASSWORD = "${var.dap_ps_admin_pass}"
 
+    /* Database */
+    DB_CONNECTION = "${var.dap_ps_db_uri}"
+
     /* BlockChain */
     BLOCKCHAIN_CONNECTION_POINT      = "wss://ropsten.infura.io/ws/v3/8675214b97b44e96b70d05326c61fd6a"
     DISCOVER_CONTRACT                = "0x17e7a7330d23fc6a2ab8578a627408f815396662"
