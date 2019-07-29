@@ -1,5 +1,6 @@
 resource "aws_acm_certificate" "main" {
-  domain_name               = "${var.stage}.${var.dns_domain}"
+  domain_name = "${var.stage}.${var.dns_domain}"
+
   /* TODO support SAN of dap.ps */
   subject_alternative_names = []
   validation_method         = "DNS"
