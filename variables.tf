@@ -69,6 +69,22 @@ variable dap_ps_app_bucket_name {
   default     = "dev-dap-ps-app"
 }
 
+variable dap_ps_admin_user {
+  description = "Name of admin user for Dapp Store application."
+}
+
+variable dap_ps_admin_pass {
+  description = "Password for admin user for Dapp Store application."
+}
+
+variable dap_ps_smtp_user {
+  description = "User for accessing AWS SES SMTP endpoint."
+}
+
+variable dap_ps_smtp_pass {
+  description = "Password for accessing AWS SES SMTP endpoint."
+}
+
 /* SES FORWARDER --------------------------------*/
 
 variable ses_forwarder_bucket_name {

@@ -59,9 +59,10 @@ module "eb_environment" {
   ssh_source_restriction      = "0.0.0.0/0"
   associate_public_ip_address = "true"
 
-  /* Hosting */
+  /* Application */
   application_port      = 4000
   http_listener_enabled = "true"
+  env_vars              = "${var.env_vars}"
 
   /* Scaling */
   instance_type          = "t2.micro"
