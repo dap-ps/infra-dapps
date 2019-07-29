@@ -4,10 +4,12 @@ provider "aws" {
   region     = "us-east-1"
   access_key = "${var.aws_access_key}"
   secret_key = "${var.aws_secret_key}"
+  version    = "<= 2.20.0"
 }
 
 provider "gandi" {
   key = "${var.gandi_api_token}"
+  version    = "<= 1.0.1"
 }
 
 /* DATA -----------------------------------------*/
