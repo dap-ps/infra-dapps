@@ -39,27 +39,32 @@ module "eb_application" {
 module "eb_environment" {
   source                       = "git::https://github.com/cloudposse/terraform-aws-elastic-beanstalk-environment.git?ref=0.13.0"
 
-  description                  = "Dapp Discovery Store - ${local.fqdn}"
-  name                         = "${replace(var.dns_domain, ".", "-")}-app"
-  stage                        = "${var.stage}"
-  namespace                    = ""
-  solution_stack_name          = "${var.stack_name}"
-  keypair                      = "${var.keypair_name}"
-  loadbalancer_certificate_arn = "${aws_acm_certificate.main.arn}"
+  description         = "Dapp Discovery Store - ${local.fqdn}"
+  name                = "${replace(var.dns_domain, ".", "-")}-app"
+  stage               = "${var.stage}"
+  namespace           = ""
+  solution_stack_name = "${var.stack_name}"
+  keypair             = "${var.keypair_name}"
+
   app                          = "${module.eb_application.app_name}"
+  loadbalancer_certificate_arn = "${aws_acm_certificate.main.arn}"
   vpc_id                       = "${module.vpc.vpc_id}"
   public_subnets               = "${module.subnets.public_subnet_ids}"
   private_subnets              = "${module.subnets.private_subnet_ids}"
   security_groups              = ["${module.vpc.vpc_default_security_group_id}"]
 
   /* Access */
+  ssh_listener_port           = "22"
   ssh_listener_enabled        = "true"
+  ssh_source_restriction      = "0.0.0.0/0"
   associate_public_ip_address = "true"
 
   /* Hosting */
-  application_port            = 3000
+  application_port      = 4000
+  http_listener_enabled = "true"
 
   /* Scaling */
+  instance_type          = "t2.micro"
   autoscale_min          = "${var.autoscale_min}"/* min instances */
   autoscale_max          = "${var.autoscale_max}"/* max instances */
   autoscale_measure_name = "CPUUtilization"
