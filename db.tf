@@ -8,26 +8,27 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_security_group" "mongodb" {
-  name = "default-mongodb"
+  name        = "default-mongodb"
   description = "Allow SSH and MongoDB"
 
   ingress {
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  ingress { /* MongoDb port */
-    from_port = 27017
-    to_port = 27017
-    protocol = "tcp"
+
+  ingress {
+    from_port   = 27017         /* MongoDb port */
+    to_port     = 27017
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
@@ -52,7 +53,9 @@ resource "aws_instance" "mongodb" {
       playbook = {
         file_path = "${path.cwd}/ansible/bootstrap.yml"
       }
-      groups   = ["${var.group}"]
+
+      groups = ["${var.group}"]
+
       extra_vars = {
         hostname         = "node-01.${var.zone}.mongodb.test"
         ansible_ssh_user = "${var.ssh_user}"
@@ -74,7 +77,8 @@ resource "gandi_zonerecord" "mongodb" {
 
 resource "ansible_host" "main" {
   inventory_hostname = "${aws_instance.mongodb.tags.Name}"
-  groups = ["mongodb", "${var.group}", "${var.zone}"]
+  groups             = ["mongodb", "${var.group}", "${var.zone}"]
+
   vars {
     ansible_host = "${aws_instance.mongodb.public_ip}"
     hostname     = "${aws_instance.mongodb.tags.Name}"
@@ -91,6 +95,7 @@ resource "ansible_host" "main" {
 
 resource "aws_iam_user" "mongodb_backup" {
   name = "mongodb-backups"
+
   tags = {
     Description = "User for S3 MongoDB backups"
   }
@@ -113,7 +118,7 @@ resource "aws_s3_bucket" "mongodb_backup" {
     prevent_destroy = true
   }
 
-  policy      = <<EOF
+  policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -138,3 +143,4 @@ output "mongodb_s3_secret_key" {
   value = "${aws_iam_access_key.mongodb_backup.encrypted_secret}"
 }
 */
+

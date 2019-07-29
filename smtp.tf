@@ -17,7 +17,8 @@ resource "aws_iam_access_key" "smtp" {
 resource "aws_iam_policy" "smtp" {
   name        = "AmazonSesSendingAccess"
   description = "Policy that gives Write access to SES Sending"
-  policy      = <<EOF
+
+  policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -46,3 +47,4 @@ output "smtp_secret_key" {
   value = "${aws_iam_access_key.smtp.encrypted_secret}"
 }
 */
+

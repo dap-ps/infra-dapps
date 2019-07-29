@@ -20,6 +20,7 @@ resource "aws_acm_certificate_validation" "prod" {
 
 /* RESOURCES ------------------------------------*/
 
+
 //resource "aws_elastic_beanstalk_application" "dev_dap_ps" {
 //  name        = "dev-dap-ps-app"
 //  description = "dev.dap.ps application"
@@ -37,7 +38,9 @@ resource "aws_acm_certificate_validation" "prod" {
 //  }
 //}
 
+
 /* DNS ------------------------------------------*/
+
 
 //resource "gandi_zonerecord" "dev_dap_ps_site" {
 //  zone   = "${var.gandi_zone_id}"
@@ -46,3 +49,4 @@ resource "aws_acm_certificate_validation" "prod" {
 //  ttl    = 3600
 //  values = ["${aws_elastic_beanstalk_environment.dev_dap_ps.cname}."]
 //}
+

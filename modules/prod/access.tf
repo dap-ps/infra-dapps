@@ -1,11 +1,12 @@
 /* ACCESS ---------------------------------------*/
 
 resource "aws_iam_group" "deploy" {
-  name   = "${var.name}-deploy"
+  name = "${var.name}-deploy"
 }
 
 resource "aws_iam_user" "deploy" {
   name = "${var.name}-deploy"
+
   tags = {
     Description = "User for deploying the ${var.dns_entry}.${var.dns_domain} Elastic Beanstalk app"
   }
@@ -29,7 +30,7 @@ resource "aws_iam_group_policy_attachment" "deploy" {
 /* ROLES ----------------------------------------*/
 
 resource "aws_iam_instance_profile" "main" {
-  name  = "${var.name}"
+  name = "${var.name}"
   role = "${aws_iam_role.main.name}"
 }
 
@@ -56,5 +57,5 @@ EOF
 resource "aws_iam_policy_attachment" "AWSElasticBeanstalkWebTier" {
   name       = "${var.name}-AWSElasticBeanstalkWebTier"
   roles      = ["${aws_iam_role.main.name}"]
-  policy_arn ="arn:aws:iam::aws:policy/AWSElasticBeanstalkWebTier"
+  policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkWebTier"
 }
