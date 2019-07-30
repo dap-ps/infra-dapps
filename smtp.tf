@@ -10,8 +10,8 @@ resource "aws_iam_user" "smtp" {
 }
 
 resource "aws_iam_access_key" "smtp" {
-  user    = "${aws_iam_user.smtp.name}"
-  pgp_key = "${file("files/support@dap.ps.gpg")}"
+  user    = aws_iam_user.smtp.name
+  pgp_key = file("files/support@dap.ps.gpg")
 }
 
 resource "aws_iam_policy" "smtp" {
@@ -30,11 +30,12 @@ resource "aws_iam_policy" "smtp" {
     ]
 }
 EOF
+
 }
 
 resource "aws_iam_user_policy_attachment" "smtp" {
-  user       = "${aws_iam_user.smtp.name}"
-  policy_arn = "${aws_iam_policy.smtp.arn}"
+  user = aws_iam_user.smtp.name
+  policy_arn = aws_iam_policy.smtp.arn
 }
 
 /**
@@ -47,4 +48,3 @@ output "smtp_secret_key" {
   value = "${aws_iam_access_key.smtp.encrypted_secret}"
 }
 */
-

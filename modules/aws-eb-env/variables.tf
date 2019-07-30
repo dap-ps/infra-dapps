@@ -1,42 +1,42 @@
 variable "name" {
   description = "Name of this environment to be used in all resources."
-  type        = "string"
+  type        = string
 }
 
 variable "stage" {
   description = "Name of stage, used for DNS entry for this environment."
-  type        = "string"
+  type        = string
 }
 
 variable "gandi_zone_id" {
   description = "ID of the zone in Gandi DNS registrar."
-  type        = "string"
+  type        = string
 }
 
 variable "dns_domain" {
   description = "Name of domain for this environment."
-  type        = "string"
+  type        = string
 }
 
 variable "stack_name" {
   description = "Name of application stack for ElasticBeanstalk."
-  type        = "string"
+  type        = string
 }
 
 variable "keypair_name" {
   description = "Name of the AWS key pair for SSH access."
-  type        = "string"
+  type        = string
 }
 
 variable "max_availability_zones" {
   description = "Maximum number of availability zones that can be used in Subnet."
   default     = "2"
-  type        = "string"
+  type        = string
 }
 
 variable "env_vars" {
   description = "Environment variables to be defined in the ElasticBeanstalk environment."
-  type        = "map"
+  type        = map(string)
 }
 
 /* Scaling --------------------------------------*/
@@ -44,11 +44,11 @@ variable "env_vars" {
 variable "autoscale_min" {
   description = "Minimum instances autoscaling will create."
   default     = "1"
-  type        = "string"
+  type        = string
 }
 
 variable "autoscale_max" {
   description = "Maximum instances autoscaling will create."
   default     = "2"
-  type        = "string"
+  type        = string
 }

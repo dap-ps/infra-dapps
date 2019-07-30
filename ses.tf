@@ -1,20 +1,20 @@
 /* Validated Domain -----------------------------*/
 
 resource "aws_ses_domain_identity" "dap_ps" {
-  domain = "${var.public_domain}"
+  domain = var.public_domain
 }
 
 resource "aws_ses_domain_dkim" "dap_ps" {
-  domain = "${aws_ses_domain_identity.dap_ps.domain}"
+  domain = aws_ses_domain_identity.dap_ps.domain
 }
 
 resource "aws_ses_domain_mail_from" "dap_ps" {
-  domain           = "${aws_ses_domain_identity.dap_ps.domain}"
+  domain           = aws_ses_domain_identity.dap_ps.domain
   mail_from_domain = "mail.${aws_ses_domain_identity.dap_ps.domain}"
 }
 
 resource "gandi_zonerecord" "dap_ps_verification" {
-  zone   = "${gandi_zone.dap_ps_zone.id}"
+  zone   = gandi_zone.dap_ps_zone.id
   name   = "_amazonses"
   type   = "TXT"
   ttl    = 3600
@@ -22,7 +22,7 @@ resource "gandi_zonerecord" "dap_ps_verification" {
 }
 
 resource "gandi_zonerecord" "dap_ps_mail_mx" {
-  zone   = "${gandi_zone.dap_ps_zone.id}"
+  zone   = gandi_zone.dap_ps_zone.id
   name   = "mail"
   type   = "MX"
   ttl    = 3600
@@ -30,7 +30,7 @@ resource "gandi_zonerecord" "dap_ps_mail_mx" {
 }
 
 resource "gandi_zonerecord" "dap_ps_mail_spf" {
-  zone   = "${gandi_zone.dap_ps_zone.id}"
+  zone   = gandi_zone.dap_ps_zone.id
   name   = "mail"
   type   = "TXT"
   ttl    = 3600
@@ -38,7 +38,7 @@ resource "gandi_zonerecord" "dap_ps_mail_spf" {
 }
 
 resource "gandi_zonerecord" "dap_ps_dkim" {
-  zone   = "${gandi_zone.dap_ps_zone.id}"
+  zone   = gandi_zone.dap_ps_zone.id
   ttl    = 3600
   type   = "CNAME"
   count  = 3
@@ -49,7 +49,7 @@ resource "gandi_zonerecord" "dap_ps_dkim" {
 /* SES EMail Fowarding --------------------------*/
 
 resource "gandi_zonerecord" "dap_ps_mx" {
-  zone   = "${gandi_zone.dap_ps_zone.id}"
+  zone   = gandi_zone.dap_ps_zone.id
   name   = "@"
   type   = "MX"
   ttl    = 3600
@@ -65,3 +65,4 @@ resource "aws_ses_email_identity" "jakub" {
 resource "aws_ses_email_identity" "andy" {
   email = "andy@status.im"
 }
+

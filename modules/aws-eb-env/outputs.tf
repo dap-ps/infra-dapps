@@ -12,4 +12,3 @@
  * This can be decrypted with:
  * echo $encrypted_secret | base64 --decode | keybase pgp 
  **/
-
