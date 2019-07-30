@@ -50,7 +50,7 @@ module "eb_environment" {
   loadbalancer_certificate_arn = "${aws_acm_certificate.main.arn}"
   vpc_id                       = "${module.vpc.vpc_id}"
   public_subnets               = "${module.subnets.public_subnet_ids}"
-  private_subnets              = "${module.subnets.private_subnet_ids}"
+  private_subnets              = "${module.subnets.public_subnet_ids}" /* should be private */
   security_groups              = ["${module.vpc.vpc_default_security_group_id}"]
 
   /* Access */
