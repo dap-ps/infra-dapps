@@ -77,14 +77,15 @@ secrets:
 	echo "Saving secrets to: terraform.tfvars"
 	@echo "\
 # secrets extracted from password-store\n\
-aws_access_key    = \"$(shell pass cloud/AWS/access-key)\"\n\
-aws_secret_key    = \"$(shell pass cloud/AWS/secret-key)\"\n\
-gandi_api_token   = \"$(shell pass cloud/Gandi/api-token)\"\n\
-dap_ps_smtp_user  = \"$(shell pass cloud/AWS/ses/smtp-user)\"\n\
-dap_ps_smtp_pass  = \"$(shell pass cloud/AWS/ses/smtp-secret-key)\"\n\
-dap_ps_admin_user = \"$(shell pass service/dev/app/admin-user)\"\n\
-dap_ps_admin_pass = \"$(shell pass service/dev/app/admin-pass)\"\n\
-dap_ps_db_uri     = \"$(shell pass service/dev/mongodb/uri)\"\n\
+aws_access_key     = \"$(shell pass cloud/AWS/access-key)\"\n\
+aws_secret_key     = \"$(shell pass cloud/AWS/secret-key)\"\n\
+gandi_api_token    = \"$(shell pass cloud/Gandi/api-token)\"\n\
+dap_ps_smtp_user   = \"$(shell pass cloud/AWS/ses/smtp-user)\"\n\
+dap_ps_smtp_pass   = \"$(shell pass cloud/AWS/ses/smtp-secret-key)\"\n\
+dap_ps_admin_user  = \"$(shell pass service/dev/app/admin-user)\"\n\
+dap_ps_admin_pass  = \"$(shell pass service/dev/app/admin-pass)\"\n\
+dap_ps_dev_db_uri  = \"$(shell pass service/dev/mongodb/uri)\"\n\
+dap_ps_prod_db_uri = \"$(shell pass service/prod/mongodb/uri)\"\n\
 " > terraform.tfvars
 
 cleanup:

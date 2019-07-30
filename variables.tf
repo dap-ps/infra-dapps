@@ -46,11 +46,6 @@ variable "image_name" {
   default     = "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20190212.1"
 }
 
-variable "instance_type" {
-  description = "Name of instance type to use"
-  default     = "t2.micro"
-}
-
 variable "ssh_user" {
   description = "Default user to use when accesing host via SSH."
   default     = "ubuntu"
@@ -85,8 +80,13 @@ variable "dap_ps_smtp_pass" {
   description = "Password for accessing AWS SES SMTP endpoint."
 }
 
-variable "dap_ps_db_uri" {
-  description = "An URI for MongoDB database including auth information."
+variable "dap_ps_dev_db_uri" {
+  description = "An URI for DEV MongoDB database including auth information."
+  /* https://docs.mongodb.com/manual/reference/connection-string/ */
+}
+
+variable "dap_ps_prod_db_uri" {
+  description = "An URI for PROD MongoDB database including auth information."
   /* https://docs.mongodb.com/manual/reference/connection-string/ */
 }
 

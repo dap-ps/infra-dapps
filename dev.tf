@@ -7,8 +7,8 @@ locals {
     ADMIN_USER     = var.dap_ps_admin_user
     ADMIN_PASSWORD = var.dap_ps_admin_pass
     /* Database */
-    DB_CONNECTION = var.dap_ps_db_uri
-    /* BlockChain */
+    DB_CONNECTION = var.dap_ps_dev_db_uri
+    /* Blockchain */
     BLOCKCHAIN_CONNECTION_POINT      = "wss://ropsten.infura.io/ws/v3/8675214b97b44e96b70d05326c61fd6a"
     DISCOVER_CONTRACT                = "0x17e7a7330d23fc6a2ab8578a627408f815396662"
     MAX_REQUESTS_FOR_RATE_LIMIT_TIME = 1
@@ -24,27 +24,23 @@ locals {
     EMAIL_TLS             = "true"
     APPROVER_MAIL         = "dapps-approvals@status.im"
     APPROVE_NOTIFIER_MAIL = "dapps-approvals@status.im"
-    /* CloudWatch TODO */
-    CLOUDWATCH_ACCESS_KEY_ID     = "This is for production, if you have logging set up (AWS Cloudwatch)"
-    CLOUDWATCH_REGION            = "This is for production, if you have logging set up (AWS Cloudwatch)"
-    CLOUDWATCH_SECRET_ACCESS_KEY = "This is for production, if you have logging set up (AWS Cloudwatch)"
   }
 }
 
 module "dev" {
-  source        = "./modules/aws-eb-env"
-  name          = "dev-dap-ps"
-  gandi_zone_id = gandi_zone.dap_ps_zone.id
-  dns_domain    = "dap.ps"
-  stage         = "dev"
-  stack_name    = var.stack_name
+  source     = "./modules/aws-eb-env"
+  name       = "dev-dap-ps"
+  stage      = "dev"
+  env_vars   = local.dev_env
+  dns_domain = var.public_domain
+  stack_name = var.stack_name
+
+  /* Plumbing */
   keypair_name  = aws_key_pair.admin.key_name
+  gandi_zone_id = gandi_zone.dap_ps_zone.id
 
   /* Scaling */
+  instance_type = "t2.micro"
   autoscale_min = 1
   autoscale_max = 2
-
-  /* Environment */
-  env_vars = local.dev_env
 }
-

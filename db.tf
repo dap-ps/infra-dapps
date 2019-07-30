@@ -35,7 +35,7 @@ resource "aws_security_group" "mongodb" {
 
 resource "aws_instance" "mongodb" {
   ami               = data.aws_ami.ubuntu.id
-  instance_type     = var.instance_type
+  instance_type     = "t2.micro"
   key_name          = aws_key_pair.admin.key_name
   availability_zone = var.zone
 

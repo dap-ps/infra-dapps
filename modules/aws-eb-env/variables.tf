@@ -41,6 +41,12 @@ variable "env_vars" {
 
 /* Scaling --------------------------------------*/
 
+variable "instance_type" {
+  description = "Name of instance type to use"
+  default     = "t2.micro"
+  type        = string
+}
+
 variable "autoscale_min" {
   description = "Minimum instances autoscaling will create."
   default     = "1"

@@ -66,7 +66,7 @@ module "eb_environment" {
   env_vars              = var.env_vars
 
   /* Scaling */
-  instance_type          = "t2.micro"
+  instance_type          = var.instance_type
   autoscale_min          = var.autoscale_min /* min instances */
   autoscale_max          = var.autoscale_max /* max instances */
   autoscale_measure_name = "CPUUtilization"
