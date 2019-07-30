@@ -6,7 +6,7 @@ resource "aws_acm_certificate" "main" {
   validation_method         = "DNS"
 }
 
-resource "gandi_zonerecord" "prod_cert_verification" {
+resource "gandi_zonerecord" "cert_verification" {
   zone   = "${var.gandi_zone_id}"
   name   = "${replace(aws_acm_certificate.main.domain_validation_options.0.resource_record_name, ".${var.dns_domain}.", "")}"
   type   = "${aws_acm_certificate.main.domain_validation_options.0.resource_record_type}"
@@ -16,5 +16,5 @@ resource "gandi_zonerecord" "prod_cert_verification" {
 
 resource "aws_acm_certificate_validation" "main" {
   certificate_arn         = "${aws_acm_certificate.main.arn}"
-  validation_record_fqdns = ["${gandi_zonerecord.prod_cert_verification.name}.${var.dns_domain}"]
+  validation_record_fqdns = ["${gandi_zonerecord.cert_verification.name}.${var.dns_domain}"]
 }
