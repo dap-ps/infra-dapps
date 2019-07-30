@@ -79,8 +79,7 @@ module "eb_environment" {
 
 /* need to get the full DNS entries for the ELBs */
 data "aws_elb" "main" {
-  name  = "${element(module.eb_environment.elb_load_balancers, count.index)}"
-  count = "${length(module.eb_environment.elb_load_balancers)}"
+  name  = "${module.eb_environment.elb_load_balancers[0]}"
 }
 
 resource "gandi_zonerecord" "main" {
