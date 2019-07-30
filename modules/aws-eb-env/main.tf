@@ -88,5 +88,5 @@ resource "gandi_zonerecord" "main" {
   name   = var.stage
   type   = "CNAME"
   ttl    = 3600
-  values = [data.aws_elb.main.dns_name]
+  values = ["${data.aws_elb.main.dns_name}."]
 }
