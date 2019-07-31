@@ -1,28 +1,23 @@
-/* S3 BACKUPS BUCKET ----------------------------*/
-
-resource "aws_iam_user" "mongodb_backup" {
-  name = "mongodb-backups"
+resource "aws_iam_user" "main" {
+  name = var.bucket_name
 
   tags = {
-    Description = "User for S3 MongoDB backups"
+    Description = "User for ${var.bucket_name} S3 bucket"
   }
 }
 
-resource "aws_iam_access_key" "mongodb_backup" {
-  user    = aws_iam_user.mongodb_backup.name
+resource "aws_iam_access_key" "main" {
+  user    = aws_iam_user.main.name
   pgp_key = file("files/support@dap.ps.gpg")
 }
 
-resource "aws_s3_bucket" "mongodb_backup" {
-  bucket = "dev-dap-ps-mongodb-backups"
+resource "aws_s3_bucket" "main" {
+  bucket = var.bucket_name
   acl    = "private"
 
   tags = {
-    Name = "Bucket for MongoDB backups"
-  }
-
-  lifecycle {
-    prevent_destroy = true
+    Name = var.bucket_name
+    Desc = var.description
   }
 
   policy = <<EOF
@@ -31,9 +26,9 @@ resource "aws_s3_bucket" "mongodb_backup" {
   "Statement": [
     {
       "Effect": "Allow",
-      "Principal": {"AWS": ["${aws_iam_user.mongodb_backup.arn}"]},
-      "Action": ["s3:PutObject","s3:PutObjectAcl"],
-      "Resource":["arn:aws:s3:::dev-dap-ps-mongodb-backups/*"]
+      "Principal": {"AWS": ["${aws_iam_user.main.arn}"]},
+      "Action": ["s3:*"],
+      "Resource":["arn:aws:s3:::${var.bucket_name}/*"]
     }
   ]
 }
