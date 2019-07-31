@@ -20,6 +20,7 @@ resource "aws_iam_user_group_membership" "deploy" {
   groups = [aws_iam_group.deploy.name]
 }
 
+/* TODO narrow down these permissions to only deployment */
 resource "aws_iam_group_policy_attachment" "deploy" {
   group      = aws_iam_group.deploy.name
   policy_arn = "arn:aws:iam::aws:policy/AWSElasticBeanstalkFullAccess"
