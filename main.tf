@@ -81,4 +81,3 @@ resource "gandi_zonerecord" "dap_ps_site" {
     "185.199.111.153",
   ]
 }
-

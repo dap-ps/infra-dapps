@@ -27,7 +27,22 @@ locals {
   }
 }
 
-module "dev" {
+module "dev_db" {
+  source     = "./modules/aws-ec2-instance"
+  groups     = ["mongodb", "db"]
+  env        = "db"
+  stage      = "dev"
+  host_count = 1
+  subdomain  = var.hosts_subdomain
+  domain     = var.public_domain
+  open_ports = [27017] /* mongodb */
+
+  /* Plumbing */
+  keypair_name  = aws_key_pair.admin.key_name
+  gandi_zone_id = gandi_zone.dap_ps_zone.id
+}
+
+module "dev_app" {
   source     = "./modules/aws-eb-env"
   name       = "dev-dap-ps"
   stage      = "dev"
@@ -40,7 +55,7 @@ module "dev" {
   gandi_zone_id = gandi_zone.dap_ps_zone.id
 
   /* Scaling */
-  instance_type = "t2.micro"
+  instance_type = "t3.small"
   autoscale_min = 1
   autoscale_max = 2
 }
