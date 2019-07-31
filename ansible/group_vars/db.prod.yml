@@ -33,16 +33,10 @@ mongodb_oplog_users:
 mongodb_login_host_vars: '{{ hostvars[groups["db.prod"][0]] }}'
 mongodb_login_host: '{{ mongodb_login_host_vars["dns_entry"] }}'
 
-# generate a list of objects with 'host_name' set to DNS entry for host
-# skip first host which is a master in the replication set
-mongodb_replication_params: |
-  {{
-   hostvars[groups["db.prod"]]
-   | selectattr("equalto", "dns_entry", mongodb_login_host)
-   | map("attr", "dns_entry")
-   | map("zip", ["host_name"])
-   | list
-  }}
+# TODO generate this dynamically
+mongodb_replication_params:
+  - host_name: '{{ hostvars[groups["db.prod"][1]].dns_entry }}'
+  - host_name: '{{ hostvars[groups["db.prod"][2]].dns_entry }}'
 
 # backups auth
 mongodb_backup_db_name: '{{ mongodb_users[0].database }}'
