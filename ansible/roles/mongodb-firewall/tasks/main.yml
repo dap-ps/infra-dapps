@@ -1,0 +1,10 @@
+---
+- name: Enable MongoDB port
+  iptables:
+    comment: 'MongoDB'
+    jump: ACCEPT
+    source: '0.0.0.0/0'
+    protocol: 'tcp'
+    destination_port: '{{ mongodb_net_port }}'
+  notify:
+    - Save iptables rules
