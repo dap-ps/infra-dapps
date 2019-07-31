@@ -27,6 +27,12 @@ locals {
   }
 }
 
+module "dev_db_bucket" {
+  source      = "./modules/aws-s3-bucket"
+  bucket_name = "dev-dap-ps-db-backups"
+  description = "Bucket for MongoDB backups on db.dev"
+}
+
 module "dev_db" {
   source     = "./modules/aws-ec2-instance"
   groups     = ["mongodb"]

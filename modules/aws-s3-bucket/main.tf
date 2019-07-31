@@ -20,6 +20,10 @@ resource "aws_s3_bucket" "main" {
     Desc = var.description
   }
 
+  lifecycle {
+    prevent_destroy = true
+  }
+
   policy = <<EOF
 {
   "Version": "2012-10-17",

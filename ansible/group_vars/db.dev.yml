@@ -33,6 +33,6 @@ mongodb_backup_db_user: '{{ mongodb_users[0].name }}'
 mongodb_backup_db_pass: '{{ mongodb_users[0].password }}'
 
 # backup uploads to S3
-mongodb_backup_bucket_name: 's3://dev-dap-ps-mongodb-backups'
+mongodb_backup_bucket_name: 's3://dev-dap-ps-db-backups'
 mongodb_backup_access_key: '{{lookup("passwordstore", "cloud/aws/s3/mongodb-backups/access-key")}}'
 mongodb_backup_secret_key: '{{lookup("passwordstore", "cloud/aws/s3/mongodb-backups/secret-key")}}'
