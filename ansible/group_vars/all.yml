@@ -8,8 +8,10 @@ cont_restart: false
 bootstrap__root_pass: '{{lookup("passwordstore", "hosts/admin-pass")}}'
 
 # We don't use Consul or Tinc
-bootstrap__consul_enabled: false
 bootstrap__tinc_enabled: false
+bootstrap__consul_enabled: false
+bootstrap__docker_enabled: false
+bootstrap__watchtower_enabled: false
 
 # Custom list of users to add
 bootstrap__active_users:
