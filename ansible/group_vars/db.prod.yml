@@ -1,0 +1,55 @@
+---
+# versions
+mongodb_version: "4.0"
+mongodb_pymongo_pip_version: 3.8.0
+
+# listening address & port
+mongodb_net_port: 27017
+mongodb_net_bindip: '0.0.0.0'
+
+# Security credentials
+mongodb_root_admin_name: root
+mongodb_root_admin_password: '{{lookup("passwordstore", "service/prod/mongodb/root-pass")}}'
+mongodb_user_admin_name: admin
+mongodb_user_admin_password: '{{lookup("passwordstore", "service/prod/mongodb/admin-pass")}}'
+mongodb_root_backup_name: backup
+mongodb_root_backup_password: '{{lookup("passwordstore", "service/prod/mongodb/backup-pass")}}'
+
+mongodb_security_authorization: 'enabled'
+mongodb_users:
+  - name: '{{lookup("passwordstore", "service/prod/mongodb/user-name")}}'
+    password: '{{lookup("passwordstore", "service/prod/mongodb/user-pass")}}'
+    roles: readWrite
+    database: 'prod-dap-ps'
+
+# enable replication on prod
+mongodb_replication_replset: "prod-dap-ps"
+mongodb_keyfile_content: '{{lookup("passwordstore", "service/prod/mongodb/keyfile returnall=true")}}'
+mongodb_oplog_users:
+  - user: oplog
+    password: '{{lookup("passwordstore", "service/prod/mongodb/oplog-pass")}}'
+
+# master host
+mongodb_login_host_vars: '{{ hostvars[groups["db.prod"][0]] }}'
+mongodb_login_host: '{{ mongodb_login_host_vars["dns_entry"] }}'
+
+# generate a list of objects with 'host_name' set to DNS entry for host
+# skip first host which is a master in the replication set
+mongodb_replication_params: |
+  {{
+   hostvars[groups["db.prod"]]
+   | selectattr("equalto", "dns_entry", mongodb_login_host)
+   | map("attr", "dns_entry")
+   | map("zip", ["host_name"])
+   | list
+  }}
+
+# backups auth
+mongodb_backup_db_name: '{{ mongodb_users[0].database }}'
+mongodb_backup_db_user: '{{ mongodb_users[0].name }}'
+mongodb_backup_db_pass: '{{ mongodb_users[0].password }}'
+
+# backup uploads to S3
+mongodb_backup_bucket_name: 's3://prod-dap-ps-db-backups'
+mongodb_backup_access_key: '{{lookup("passwordstore", "cloud/aws/s3/mongodb-backups/access-key")}}'
+mongodb_backup_secret_key: '{{lookup("passwordstore", "cloud/aws/s3/mongodb-backups/secret-key")}}'

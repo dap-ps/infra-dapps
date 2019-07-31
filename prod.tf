@@ -31,6 +31,27 @@ locals {
   }
 }
 
+module "prod_db_bucket" {
+  source      = "./modules/aws-s3-bucket"
+  bucket_name = "prod-dap-ps-db-backups"
+  description = "Bucket for MongoDB backups on db.prod"
+}
+
+module "prod_db" {
+  source     = "./modules/aws-ec2-instance"
+  groups     = ["mongodb"]
+  env        = "db"
+  stage      = "prod"
+  host_count = 3
+  subdomain  = var.hosts_subdomain
+  domain     = var.public_domain
+  open_ports = [27017] /* mongodb */
+
+  /* Plumbing */
+  keypair_name  = aws_key_pair.admin.key_name
+  gandi_zone_id = gandi_zone.dap_ps_zone.id
+}
+
 module "prod" {
   source     = "./modules/aws-eb-env"
   name       = "prod-dap-ps"
