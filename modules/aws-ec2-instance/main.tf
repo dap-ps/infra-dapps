@@ -41,7 +41,8 @@ resource "aws_security_group" "main" {
     content {
       from_port = port.value
       to_port   = port.value
-      protocol  = "-1" /* means ALL */
+      protocol  = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
     }
   }
 }
