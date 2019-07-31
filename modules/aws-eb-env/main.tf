@@ -1,5 +1,7 @@
 locals {
-  fqdn = "${var.stage}.${var.dns_domain}"
+  fqdn     = "${var.stage}.${var.dns_domain}"
+  /* also used in deployment user policy */
+  app_name = "${replace(var.dns_domain, ".", "-")}-app"
 }
 
 data "aws_availability_zones" "available" {
@@ -31,7 +33,7 @@ module "subnets" {
 module "eb_application" {
   source = "git::https://github.com/lodotek/terraform-aws-elastic-beanstalk-application.git?ref=ref-0.12"
 
-  name        = "${replace(var.dns_domain, ".", "-")}-app"
+  name        = local.app_name
   description = "${local.fqdn} application"
   stage       = var.stage
   namespace   = ""
@@ -41,7 +43,7 @@ module "eb_environment" {
   source = "git::https://github.com/lodotek/terraform-aws-elastic-beanstalk-environment.git?ref=master"
 
   description         = "Dapp Discovery Store - ${local.fqdn}"
-  name                = "${replace(var.dns_domain, ".", "-")}-app"
+  name                = local.app_name
   stage               = var.stage
   namespace           = ""
   solution_stack_name = var.stack_name
