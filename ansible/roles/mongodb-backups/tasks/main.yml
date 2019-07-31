@@ -1,0 +1,50 @@
+---
+- name: MongoDB | Create directores for DB dumps
+  file:
+    path: '{{ item }}'
+    state: directory
+    group: adm
+    mode: 0775
+  with_items:
+    - '/var/lib/backups'
+    - '{{ mongodb_backup_path }}'
+
+- name: MongoDB | Create DB dump script
+  copy:
+    dest: '{{ mongodb_backup_script }}'
+    content: |
+      #!/usr/bin/env bash
+      TSTAMP=$(date -u +%Y%m%d%H%M%S)
+      BKP_DIR={{ mongodb_backup_path }}
+      mongodump \
+        --verbose \
+        --host={{ mongodb_backup_db_addr | mandatory }} \
+        --port={{ mongodb_backup_db_port | mandatory }} \
+        --username={{ mongodb_backup_db_user | mandatory }} \
+        --password={{ mongodb_backup_db_pass | mandatory }} \
+        --db={{ mongodb_backup_db_name | mandatory }} \
+        --authenticationDatabase={{ mongodb_backup_db_name | mandatory }} \
+        --out=${BKP_DIR}/{{ mongodb_backup_file_prefix }}_dump_${TSTAMP}.bson
+    group: adm
+    mode: 0750
+
+- name: MongoDB | Configure DB dump cron job
+  cron:
+    name: MongoDB Dump
+    special_time: '{{ mongodb_backup_frequency }}'
+    user: root
+    job: '{{ mongodb_backup_script }}'
+
+- name: MongoDB | Configure S3 upload cron job
+  include_role:
+    name: s3cmd-backup
+  vars:
+    backup_name: mongodb-backups
+    backup_number: 1
+    backup_hour: 4
+    backup_day: '*'
+    backup_directory: '/var/tmp/backups'
+    backup_base_domain: 's3.amazonaws.com'
+    backup_bucket_name: '{{ mongodb_backup_bucket_name | mandatory }}'
+    backup_access_key: '{{ mongodb_backup_access_key | mandatory }}'
+    backup_secret_key: '{{ mongodb_backup_secret_key | mandatory }}'

@@ -1,9 +1,10 @@
 ---
 - name: Configure MongoDB
-  hosts: db.dev
+  hosts: mongodb
   roles:
-    - mongodb-firewall
-    - mongodb
+    #- mongodb
+    #- mongodb-firewall
+    - mongodb-backups
   post_tasks:
     - name: MongoDB URI string
       debug:

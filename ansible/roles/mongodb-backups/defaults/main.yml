@@ -1,0 +1,18 @@
+---
+# path for mongodump backups
+mongodb_backup_path: '/var/tmp/backups/mongodb'
+mongodb_backup_file_prefix: '{{ mongodb_backup_db_name | replace("-", "_") }}'
+mongodb_backup_script: '/var/lib/backups/{{ mongodb_backup_db_name | replace("-", "_") }}_dump.sh'
+mongodb_backup_frequency: daily
+
+# db auth
+mongodb_backup_db_name: ~
+mongodb_backup_db_user: ~
+mongodb_backup_db_pass: ~
+mongodb_backup_db_addr: 'localhost'
+mongodb_backup_db_port: 27017
+
+# s3 auth
+mongodb_backup_bucket_name: ~
+mongodb_backup_access_key: ~
+mongodb_backup_secret_key: ~
