@@ -29,7 +29,7 @@ locals {
 
 module "dev_db" {
   source     = "./modules/aws-ec2-instance"
-  groups     = ["mongodb", "db"]
+  groups     = ["mongodb"]
   env        = "db"
   stage      = "dev"
   host_count = 1

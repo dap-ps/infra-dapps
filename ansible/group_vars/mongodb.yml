@@ -1,4 +1,0 @@
----
-mongo_db_name: dev-dap-ps
-mongo_db_user: '{{lookup("passwordstore", "service/mongodb/user")}}'
-mongo_db_pass: '{{lookup("passwordstore", "service/mongodb/pass")}}'

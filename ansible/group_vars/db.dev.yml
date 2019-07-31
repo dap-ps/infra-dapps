@@ -1,0 +1,28 @@
+---
+# versions
+mongodb_version: "4.0"
+mongodb_pymongo_pip_version: 3.8.0
+
+# listening address & port
+mongodb_net_port: 27017
+mongodb_net_bindip: '0.0.0.0'
+
+# Security credentials
+mongodb_root_admin_name: root
+mongodb_root_admin_password: '{{lookup("passwordstore", "service/dev/mongodb/root-pass")}}'
+mongodb_user_admin_name: admin
+mongodb_user_admin_password: '{{lookup("passwordstore", "service/dev/mongodb/admin-pass")}}'
+mongodb_root_backup_name: backup
+mongodb_root_backup_password: '{{lookup("passwordstore", "service/dev/mongodb/backup-pass")}}'
+
+mongodb_security_authorization: 'enabled'
+mongodb_users:
+  - name: '{{lookup("passwordstore", "service/dev/mongodb/user-name")}}'
+    password: '{{lookup("passwordstore", "service/dev/mongodb/user-pass")}}'
+    roles: readWrite
+    database: 'dev-dap-ps'
+
+# disable replication on dev
+mongodb_replication_replset: ""
+mongodb_security_keyfile: ""
+mongodb_oplog_users: []

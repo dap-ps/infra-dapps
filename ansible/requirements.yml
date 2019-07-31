@@ -20,5 +20,5 @@
   scm: git
 
 - name: mongodb
-  src: git@github.com/UnderGreen/ansible-role-mongodb.git
+  src: https://github.com/UnderGreen/ansible-role-mongodb.git
   scm: git
