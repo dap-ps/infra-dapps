@@ -2,8 +2,8 @@
 - name: Configure MongoDB
   hosts: mongodb
   roles:
-    - mongodb
     - mongodb-firewall
+    - mongodb-setup
     - mongodb-backups
   post_tasks:
     - name: MongoDB URI string

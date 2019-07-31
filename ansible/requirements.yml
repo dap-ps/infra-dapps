@@ -19,6 +19,6 @@
   src: git@github.com:status-im/infra-role-s3cmd-backup.git
   scm: git
 
-- name: mongodb
+- name: mongodb-setup
   src: https://github.com/UnderGreen/ansible-role-mongodb.git
   scm: git
