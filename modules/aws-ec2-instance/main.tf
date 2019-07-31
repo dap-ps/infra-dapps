@@ -2,7 +2,7 @@ locals {
   host_suffix      = "${var.zone}.${var.env}.${var.stage}"
   host_full_suffix = "${local.host_suffix}.${var.subdomain}.${var.domain}"
   /* got to add some default groups */
-  groups = distinct(concat([var.zone, var.env, var.stage], var.groups))
+  groups = distinct(concat([var.zone, "${var.env}.${var.stage}"], var.groups))
 }
 
 /* the image needs to be queried */
