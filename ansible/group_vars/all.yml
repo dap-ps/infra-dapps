@@ -6,3 +6,16 @@ cont_restart: false
 
 # Root password
 bootstrap__root_pass: '{{lookup("passwordstore", "hosts/admin-pass")}}'
+
+# We don't use Consul or Tinc
+bootstrap__consul_enabled: false
+bootstrap__tinc_enabled: false
+
+# Custom list of users to add
+bootstrap__active_users:
+  - { name: adamb,   uid: 7003, groups: [] }
+  - { name: jakub,   uid: 7006, groups: [] }
+  - { name: igor,    uid: 7015, groups: [] }
+  - { name: petty   ,uid: 7028, groups: [] }
+  - { name: andy    ,uid: 7050, groups: [], key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDK/OSd+vyKNfuJXovTil4CgENpnxNLNK5m9DoWf3dj9nfIBLs2zMn53ibQQ7DAjwwf8WmMxpxWxYSYxnzZYhzIpDiKmaDP/LoPaIuufAOXcClR/t6+lgqKrIaBhDnzVo7gyEowMxyL4FTeO4DBQGuQqjFjQIPgX6H540NM67hRBYiREb5lsv7NWLFVxJk8DOmwfA6AKHUyt0XPHhfI6+F5Fg1dSFE7DTXjVTW07y5QPZUP/JvdpKUbcDmMKYnsDOoWK1X5Lc4U1BjEPP0/xiP6byFWsaX4C2tk0hbId8NvTqHcBZhGU1YEWjZGIscZjRegH5QEXrwd/C5JCc+1sq0UbFzeSLQWZeCr9qmQqYFJ6cNEdXdlzdXAmw15HVRXy2zjeCYIgxgHu6Yg66MVaEUqLwgOjvtC9Y0+IiF/U1Mx4GwO5D6V/zhr1mjKcDoh6TbvI4PNVLKA7LqcuY+uevl6u3BKvRu/7FZrYgvB3aqwEr9ZkmS8i1F7t6/usLK6mc8F1XSlyITO8+pHmzcgcNfN/VeV3c421JYsvno/jWrLjaDMIgokMudjX9FsKaz/F6n/fUAE8rRdq7Sj85Y2iGpmKD1fdLkTcdtpjJstIkfKq8/iKDpT/Ouk+3ZCPTFazL9pG+fAy71sM4lg6vO2juvP5IfPAVRrRkFtRW7qu4/waQ== andy@status.im" }
+  - { name: lyubo   ,uid: 7052, groups: [], key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCudiq90bVCQtDXbxm25jEOTSUJ/mztX0kv864TpQUbNdWb5vVSKrv02U3U90p6oRkcyqHl7YC5iov8T3iStvuguFYArpRvk2GMg4NDLRvYzQUBVR/pIq1lEQiXi2Nnf0ABaBPXkNqmOswHgJ1XWlJdMBtyri3q7EPa3AvGv5g0MHbFx4rx4UwszGgRrgdPhrRxh6fU7WluUT4M4NTSIbq8SQGjvNIxwUBPl5FUkO2N5kLZrQHptK4tmseeKI+U4MWOkY6KPbzDlqGZhWAPAUD6m/em4t+gcHb6b8SaxR8+aU+ZixLPq5u0BZ5PsidCYu3eF7BuRKD4QKqwH+KxmIPHCMGadr+bkiAiEWmJuvWNrb7DmpcS5rDgVx5CyONehIs7IvLS/Q0Y/IbfrJaelOETJ/iW4/9UxT8eRTWV9usFExMwyc0p+UEfNlJgtVIxj2XYWbQOhainBsy0hRP61cZZgnOXemvgT/oQjjE1wg1by7To0H+1cOmNw9jlgVq1UDsi10GfAXRx47s7TR62TefczkTDnLbFEqtp5GRLhcxHh3XBvgcUU5ou678IuJjdqinjI7Z9EN779k30t9YNH0GXtjBDyYtNJTmZyS2WxX0tFfLq57pr/H1HSbkq4q5GmDJAV+xJXr5e5jZ80B37QdjOThw67hrECOMsd49hALaKyw== lyubo@limechain.tech" }
