@@ -52,7 +52,7 @@ module "prod_db" {
   gandi_zone_id = gandi_zone.dap_ps_zone.id
 }
 
-module "prod" {
+module "prod_env" {
   source     = "./modules/aws-eb-env"
   name       = "prod-dap-ps"
   stage      = "prod"

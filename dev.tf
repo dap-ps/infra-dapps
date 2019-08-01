@@ -48,7 +48,7 @@ module "dev_db" {
   gandi_zone_id = gandi_zone.dap_ps_zone.id
 }
 
-module "dev_app" {
+module "dev_env" {
   source     = "./modules/aws-eb-env"
   name       = "dev-dap-ps"
   stage      = "dev"
