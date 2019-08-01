@@ -1,6 +1,7 @@
 ---
 # versions
 mongodb_version: "4.0"
+# Fixes: https://github.com/ansible/ansible/issues/44970
 mongodb_pymongo_pip_version: 3.8.0
 
 # listening address & port
