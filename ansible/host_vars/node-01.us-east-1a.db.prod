@@ -1,0 +1,4 @@
+---
+# use this variable for replica set init only
+# or when master is moved from initial master node
+mongodb_master: true

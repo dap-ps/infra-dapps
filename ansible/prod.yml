@@ -1,0 +1,11 @@
+---
+- name: Configure MongoDB prod cluster
+  hosts: db.prod
+  roles:
+    - mongodb-firewall
+    - mongodb-setup
+    - mongodb-backups
+  post_tasks:
+    - name: MongoDB URI string
+      debug:
+        msg: 'mongodb://{{ mongodb_users[0].name }}:{{ mongodb_users[0].password }}@{{ dns_entry }}:{{ mongodb_net_port }}/{{ mongodb_users[0].database }}'

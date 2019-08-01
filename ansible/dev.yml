@@ -1,6 +1,6 @@
 ---
-- name: Configure MongoDB
-  hosts: mongodb
+- name: Configure MongoDB dev cluster
+  hosts: db.dev
   roles:
     - mongodb-firewall
     - mongodb-setup
