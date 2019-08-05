@@ -16,6 +16,7 @@
       #!/usr/bin/env bash
       TSTAMP=$(date -u +%Y%m%d%H%M%S)
       BKP_DIR={{ mongodb_backup_path }}
+      BPK_NAME="{{ mongodb_backup_file_prefix }}_dump_${TSTAMP}"
       mongodump \
         --verbose \
         --host={{ mongodb_backup_db_addr | mandatory }} \
@@ -24,7 +25,9 @@
         --password={{ mongodb_backup_db_pass | mandatory }} \
         --db={{ mongodb_backup_db_name | mandatory }} \
         --authenticationDatabase={{ mongodb_backup_db_name | mandatory }} \
-        --out=${BKP_DIR}/{{ mongodb_backup_file_prefix }}_dump_${TSTAMP}.bson
+        --out="${BKP_DIR}/${BPK_NAME}"
+      tar czf "${BKP_DIR}/${BPK_NAME}.tar.gz" "${BKP_DIR}/${BPK_NAME}"
+      rm -fr "${BKP_DIR}/${BPK_NAME}"
     group: adm
     mode: 0750
 
@@ -43,8 +46,8 @@
     backup_number: 1
     backup_hour: 4
     backup_day: '*'
-    backup_directory: '/var/tmp/backups'
     backup_base_domain: 's3.amazonaws.com'
+    backup_directory: '{{ mongodb_backup_path }}'
     backup_bucket_name: '{{ mongodb_backup_bucket_name | mandatory }}'
     backup_access_key: '{{ mongodb_backup_access_key | mandatory }}'
     backup_secret_key: '{{ mongodb_backup_secret_key | mandatory }}'
