@@ -23,6 +23,11 @@ resource "aws_s3_bucket" "main" {
   lifecycle {
     prevent_destroy = true
   }
+}
+
+resource "aws_iam_user_policy" "main" {
+  name = "${var.bucket_name}-access"
+  user = "${aws_iam_user.main.name}"
 
   policy = <<EOF
 {
@@ -30,12 +35,10 @@ resource "aws_s3_bucket" "main" {
   "Statement": [
     {
       "Effect": "Allow",
-      "Principal": {"AWS": ["${aws_iam_user.main.arn}"]},
       "Action": ["s3:*"],
       "Resource":["arn:aws:s3:::${var.bucket_name}/*"]
     }
   ]
 }
 EOF
-
 }
