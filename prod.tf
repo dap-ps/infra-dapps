@@ -1,8 +1,9 @@
 locals {
   prod_env = {
     /* WARNING EB forces PORT 8081 */
-    ENVIRONMENT     = "PROD"
-    RATE_LIMIT_TIME = 15
+    ENVIRONMENT        = "PROD"
+    RATE_LIMIT_TIME    = 15 /* ms window */
+    RATE_LIMIT_MAX_REQ = 1
     /* Access */
     ADMIN_USER     = var.dap_ps_admin_user
     ADMIN_PASSWORD = var.dap_ps_admin_pass
@@ -11,7 +12,6 @@ locals {
     /* Blockchain */
     BLOCKCHAIN_CONNECTION_POINT      = "TODO"
     DISCOVER_CONTRACT                = "TODO"
-    MAX_REQUESTS_FOR_RATE_LIMIT_TIME = 1
     /* IPFS */
     IPFS_HOST     = "ipfs.infura.io"
     IPFS_PORT     = 5001
