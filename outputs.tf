@@ -3,14 +3,9 @@
  * For details see: https://www.terraform.io/docs/providers/aws/r/iam_access_key.html
  **/
 
-output "smtp_access_key" {
+output "smtp_username" {
   value = "${aws_iam_access_key.smtp.id}"
 }
-output "smtp_secret_key" {
-  value = "${aws_iam_access_key.smtp.encrypted_secret}"
+output "smtp_password" {
+  value = "${aws_iam_access_key.smtp.ses_smtp_password}"
 }
-
-/**
- * This can be decrypted with:
- * echo $encrypted_secret | base64 --decode | keybase pgp 
- **/
