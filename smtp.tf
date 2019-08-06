@@ -24,7 +24,10 @@ resource "aws_iam_policy" "smtp" {
     "Statement": [
         {
             "Effect": "Allow",
-            "Action": "ses:SendRawEmail",
+            "Action": [
+              "SES:SendEmail",
+              "SES:SendRawEmail"
+            ],
             "Resource": "*"
         }
     ]
