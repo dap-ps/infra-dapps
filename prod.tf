@@ -22,8 +22,8 @@ locals {
     EMAIL_HOST            = "email-smtp.us-east-1.amazonaws.com"
     EMAIL_PORT            = 465
     EMAIL_TLS             = "true"
+    APPROVE_NOTIFIER_MAIL = "approvals@dap.ps" /* FROM */
     APPROVER_MAIL         = "dapps-approvals@status.im"
-    APPROVE_NOTIFIER_MAIL = "dapps-approvals@status.im"
     /* CloudWatch TODO Once we have logging set up (AWS Cloudwatch) */
     CLOUDWATCH_ACCESS_KEY_ID     = "TODO"
     CLOUDWATCH_REGION            = "TODO"
