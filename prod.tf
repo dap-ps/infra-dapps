@@ -10,8 +10,8 @@ locals {
     /* Database */
     DB_CONNECTION = var.dap_ps_prod_db_uri
     /* Blockchain */
-    BLOCKCHAIN_CONNECTION_POINT      = "TODO"
-    DISCOVER_CONTRACT                = "TODO"
+    BLOCKCHAIN_CONNECTION_POINT      = "wss://mainnet.infura.io/v3/8675214b97b44e96b70d05326c61fd6a"
+    DISCOVER_CONTRACT                = "0x5bCF2767F86f14eDd82053bfBfd5069F68C2C5F8"
     /* IPFS */
     IPFS_HOST     = "ipfs.infura.io"
     IPFS_PORT     = 5001
