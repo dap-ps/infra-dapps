@@ -1,5 +1,7 @@
 locals {
   dev_env = {
+    /* Node start command */
+    EB_NODE_COMMAND = "node server.js"
     /* WARNING EB forces PORT 8081 */
     ENVIRONMENT        = "DEV"
     RATE_LIMIT_TIME    = 15 /* ms window */
