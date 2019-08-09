@@ -49,12 +49,13 @@ module "eb_environment" {
   solution_stack_name = var.stack_name
   keypair             = var.keypair_name
 
-  app                          = module.eb_application.app_name
   loadbalancer_certificate_arn = aws_acm_certificate.main.arn
-  vpc_id                       = module.vpc.vpc_id
-  public_subnets               = module.subnets.public_subnet_ids
-  private_subnets              = module.subnets.public_subnet_ids /* should be private */
-  security_groups              = [module.vpc.vpc_default_security_group_id]
+
+  app             = module.eb_application.app_name
+  vpc_id          = module.vpc.vpc_id
+  public_subnets  = module.subnets.public_subnet_ids
+  private_subnets = module.subnets.public_subnet_ids /* should be private */
+  security_groups = [module.vpc.vpc_default_security_group_id]
 
   /* Access */
   ssh_listener_port           = "22"
