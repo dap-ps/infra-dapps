@@ -5,7 +5,6 @@ locals {
 resource "aws_acm_certificate" "main" {
   domain_name = "${var.stage}.${var.dns_domain}"
 
-  /* TODO support SAN of dap.ps */
   subject_alternative_names = local.cert_sans
   validation_method         = "DNS"
 
