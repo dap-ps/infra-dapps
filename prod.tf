@@ -68,6 +68,6 @@ module "prod_env" {
 
   /* Scaling */
   instance_type = "t2.micro"
-  autoscale_min = 1
+  autoscale_min = 2
   autoscale_max = 6
 }
