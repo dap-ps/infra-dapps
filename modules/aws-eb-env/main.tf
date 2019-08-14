@@ -68,6 +68,11 @@ module "eb_environment" {
   http_listener_enabled = "true"
   env_vars              = var.env_vars
 
+  /* Deployment */
+  updating_min_in_service = 1 /* min number of hosts up during updates */
+  updating_max_batch      = 1 /* max number of hosts to deploy at a time */
+  rolling_update_type     = "Rolling" /* if "Immutable" replaces instances */
+
   /* Scaling */
   instance_type          = var.instance_type
   autoscale_min          = var.autoscale_min /* min instances */
