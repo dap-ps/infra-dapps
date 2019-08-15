@@ -61,23 +61,3 @@ resource "aws_key_pair" "admin" {
   key_name   = "admin-key"
   public_key = file("files/admin.pub")
 }
-
-/* MAIN SITE ------------------------------------*/
-
-/**
- * This is the main site hosted on GitHub:
- * https://github.com/dap-ps/discover
- **/
-resource "gandi_zonerecord" "dap_ps_site" {
-  zone = gandi_zone.dap_ps_zone.id
-  name = "@"
-  type = "A"
-  ttl  = 3600
-
-  values = [
-    "185.199.108.153",
-    "185.199.109.153",
-    "185.199.110.153",
-    "185.199.111.153",
-  ]
-}

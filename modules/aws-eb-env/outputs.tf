@@ -15,3 +15,7 @@ output "deploy_secret_key" {
  * This can be decrypted with:
  * echo $encrypted_secret | base64 --decode | keybase pgp 
  **/
+
+output "elb_fqdn" {
+  value = data.aws_elb.main.dns_name
+}

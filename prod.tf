@@ -71,3 +71,13 @@ module "prod_env" {
   autoscale_min = 2
   autoscale_max = 6
 }
+
+/* DNS ------------------------------------------*/
+
+resource "gandi_zonerecord" "dap_ps_site" {
+  zone   = gandi_zone.dap_ps_zone.id
+  name   = "@"
+  type   = "CNAME"
+  ttl    = 3600
+  values = [module.prod_env.elb_fqdn]
+}
