@@ -74,10 +74,15 @@ module "prod_env" {
 
 /* DNS ------------------------------------------*/
 
+/* Apex DNS records cannot be CNAMEs */
+data "dns_a_record_set" "prod_elb" {
+  host = module.prod_env.elb_fqdn
+}
+
 resource "gandi_zonerecord" "dap_ps_site" {
   zone   = gandi_zone.dap_ps_zone.id
   name   = "@"
-  type   = "CNAME"
+  type   = "A"
   ttl    = 3600
-  values = [module.prod_env.elb_fqdn]
+  values = data.dns_a_record_set.prod_elb.addrs
 }
