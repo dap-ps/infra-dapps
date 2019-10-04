@@ -45,7 +45,7 @@ ansible-playbook ansible/prod.yml
 
 # TODO
 
-* #4  - [prod] Geographically spread hosts
-* #10 - [prod] Periodic EC2 Snapshots
-* #11 - [prod] MongoDB Web UI
-* #13 - [prod] Stress test infrastructure
+* [#4](https://github.com/dap-ps/infra-dapps/issues/4) - [prod] Geographically spread hosts
+* [#10](https://github.com/dap-ps/infra-dapps/issues/10)  - [prod] Periodic EC2 Snapshots
+* [#11](https://github.com/dap-ps/infra-dapps/issues/11)  - [prod] MongoDB Web UI
+* [#13](https://github.com/dap-ps/infra-dapps/issues/13)  - [prod] Stress test infrastructure
