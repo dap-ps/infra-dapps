@@ -60,8 +60,14 @@ resource "aws_instance" "main" {
   security_groups   = [aws_security_group.main.name]
 
   tags = {
-    Name = "node-${format("%02d", count.index+1)}.${local.host_suffix}"
-    Fqdn = "node-${format("%02d", count.index+1)}.${local.host_full_suffix}"
+    Name  = "node-${format("%02d", count.index+1)}.${local.host_suffix}"
+    Fqdn  = "node-${format("%02d", count.index+1)}.${local.host_full_suffix}"
+    Fleet = "${var.env}.${var.stage}"
+  }
+  
+  /* for snapshots through lifecycle policy */
+  volume_tags = {
+    Fleet = "${var.env}.${var.stage}"
   }
 
   /* bootstraping access for later Ansible use */

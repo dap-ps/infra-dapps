@@ -14,3 +14,7 @@ output "hostnames" {
 output "hosts" {
   value = zipmap(local.hostnames, local.public_ips)
 }
+
+output "instances" {
+  value = aws_instance.main
+}

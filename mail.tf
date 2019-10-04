@@ -5,9 +5,6 @@
 
 /* SES S3 Bucket --------------------------------*/
 
-data "aws_caller_identity" "current" {
-}
-
 resource "aws_s3_bucket" "ses-forwarder-emails" {
   bucket = "ses-forwarder-emails"
   acl    = "private"
