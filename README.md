@@ -49,3 +49,12 @@ ansible-playbook ansible/prod.yml
 * [#10](https://github.com/dap-ps/infra-dapps/issues/10)  - [prod] Periodic EC2 Snapshots
 * [#11](https://github.com/dap-ps/infra-dapps/issues/11)  - [prod] MongoDB Web UI
 * [#13](https://github.com/dap-ps/infra-dapps/issues/13)  - [prod] Stress test infrastructure
+
+# Links
+
+These helped me during work on this setup:
+
+* https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3.html
+* https://aws.amazon.com/getting-started/tutorials/deploy-app-command-line-elastic-beanstalk/
+* https://medium.com/@vygandas/how-to-deploy-your-nodejs-app-on-amazon-elastic-beanstalk-aws-eb-with-circleci-short-tutorial-d8210d2a7f0c
+* https://realpython.com/deploying-a-django-app-to-aws-elastic-beanstalk/
