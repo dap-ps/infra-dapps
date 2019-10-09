@@ -16,6 +16,10 @@ output "deploy_secret_key" {
  * echo $encrypted_secret | base64 --decode | keybase pgp 
  **/
 
-output "elb_fqdn" {
-  value = data.aws_elb.main.dns_name
+output "elb_names" {
+  value = module.eb_environment.load_balancers
+}
+
+output "elb_fqdns" {
+  value = [for elb in data.aws_elb.main: elb.dns_name]
 }

@@ -11,8 +11,8 @@ module "vpc" {
   source = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=0.7.0"
 
   namespace  = ""
-  stage      = "dev"
-  name       = "test"
+  stage      = var.stage
+  name       = "${local.app_name}-vpc"
   cidr_block = "10.0.0.0/16"
 }
 
@@ -31,7 +31,7 @@ module "subnets" {
 }
 
 module "eb_application" {
-  source = "git::https://github.com/lodotek/terraform-aws-elastic-beanstalk-application.git?ref=ref-0.12"
+  source = "git::https://github.com/cloudposse/terraform-aws-elastic-beanstalk-application.git?ref=0.3.0"
 
   name        = local.app_name
   description = "${local.fqdn} application"
@@ -40,22 +40,22 @@ module "eb_application" {
 }
 
 module "eb_environment" {
-  source = "git::https://github.com/lodotek/terraform-aws-elastic-beanstalk-environment.git?ref=master"
+  source = "git::https://github.com/cloudposse/terraform-aws-elastic-beanstalk-environment.git?ref=0.14.0"
 
   description         = "Dapp Discovery Store - ${local.fqdn}"
   name                = local.app_name
   stage               = var.stage
-  namespace           = ""
+  region              = "us-east-1"
   solution_stack_name = var.stack_name
   keypair             = var.keypair_name
 
   loadbalancer_certificate_arn = aws_acm_certificate.main.arn
 
-  app             = module.eb_application.app_name
-  vpc_id          = module.vpc.vpc_id
-  public_subnets  = module.subnets.public_subnet_ids
-  private_subnets = module.subnets.public_subnet_ids /* should be private */
-  security_groups = [module.vpc.vpc_default_security_group_id]
+  vpc_id               = module.vpc.vpc_id
+  application_subnets  = module.subnets.public_subnet_ids
+  loadbalancer_subnets = module.subnets.public_subnet_ids /* should be private */
+  allowed_security_groups = [module.vpc.vpc_default_security_group_id]
+  elastic_beanstalk_application_name = module.eb_application.elastic_beanstalk_application_name
 
   /* Access */
   ssh_listener_port           = "22"
@@ -66,12 +66,21 @@ module "eb_environment" {
   /* Application */
   application_port      = 8080
   http_listener_enabled = "true"
-  env_vars              = var.env_vars
+
+  /* Environment */
+  additional_settings = [
+    for key, value in var.env_vars:
+      {
+        name      = key
+        value     = value
+        namespace = "aws:elasticbeanstalk:application:environment"
+      }
+  ]
 
   /* Deployment */
   updating_min_in_service = 1 /* min number of hosts up during updates */
-  updating_max_batch      = 1 /* max number of hosts to deploy at a time */
-  rolling_update_type     = "Rolling" /* if "Immutable" replaces instances */
+  updating_max_batch      = 1 /* max number of hosts to deploy at once */
+  rolling_update_type     = "Health" /* "Immutable" replaces instances */
 
   /* Scaling */
   instance_type          = var.instance_type
@@ -88,7 +97,8 @@ module "eb_environment" {
 
 /* need to get the full DNS entries for the ELBs */
 data "aws_elb" "main" {
-  name = module.eb_environment.elb_load_balancers[0]
+  name  = module.eb_environment.load_balancers[count.index]
+  count = 1
 }
 
 resource "gandi_zonerecord" "main" {
@@ -96,5 +106,5 @@ resource "gandi_zonerecord" "main" {
   name   = var.stage
   type   = "CNAME"
   ttl    = 3600
-  values = ["${data.aws_elb.main.dns_name}."]
+  values = [for elb in data.aws_elb.main: "${elb.dns_name}."]
 }
