@@ -65,10 +65,10 @@ EOF
 }
 
 resource "aws_iam_role_policy" "ses_lambda_policy" {
-name = "LambdaSesForwarderPolicy"
-role = aws_iam_role.ses_lambda_role.id
+  name = "LambdaSesForwarderPolicy"
+  role = aws_iam_role.ses_lambda_role.id
 
-policy = <<EOF
+  policy = <<EOF
 {
    "Version": "2012-10-17",
    "Statement": [
@@ -94,46 +94,48 @@ EOF
 }
 
 data "archive_file" "ses_forwarder" {
-type = "zip"
-source_file = "files/index.js"
-output_path = "files/sesforwarder.zip"
+  type = "zip"
+  source_file = "files/index.js"
+  output_path = "files/sesforwarder.zip"
 }
 
 resource "aws_lambda_function" "ses_forwarder" {
-filename = "files/sesforwarder.zip"
-source_code_hash = data.archive_file.ses_forwarder.output_base64sha256
+  filename = "files/sesforwarder.zip"
 
-function_name = "SesForwarder"
-role = aws_iam_role.ses_lambda_role.arn
-handler = "index.handler"
-runtime = "nodejs8.10"
-memory_size = 128
-timeout = 10
+  source_code_hash = data.archive_file.ses_forwarder.output_base64sha256
+  
+  function_name = "SesForwarder"
+  role          = aws_iam_role.ses_lambda_role.arn
+  handler       = "index.handler"
+  runtime       = "nodejs10.x"
+  memory_size   = 128
+  timeout       = 10
 }
 
 resource "aws_lambda_permission" "allow_ses" {
-statement_id = "AllowExecutionFromSES"
-action = "lambda:InvokeFunction"
-function_name = aws_lambda_function.ses_forwarder.function_name
-principal = "ses.amazonaws.com"
+  statement_id  = "AllowExecutionFromSES"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.ses_forwarder.function_name
+  principal     = "ses.amazonaws.com"
 }
 
 resource "aws_ses_receipt_rule" "ses_forwarder" {
-name = "SesForwarder"
-rule_set_name = "default-rule-set"
-enabled = true
-scan_enabled = true
+  name = "SesForwarder"
 
-s3_action {
-bucket_name = var.ses_forwarder_bucket_name
-object_key_prefix = "${var.public_domain}/"
-position = 1
-}
-
-lambda_action {
-function_arn = aws_lambda_function.ses_forwarder.arn
-invocation_type = "Event"
-position = 2
-}
+  enabled       = true
+  scan_enabled  = true
+  rule_set_name = "default-rule-set"
+  
+  s3_action {
+    bucket_name       = var.ses_forwarder_bucket_name
+    object_key_prefix = "${var.public_domain}/"
+    position          = 1
+  }
+  
+  lambda_action {
+    function_arn    = aws_lambda_function.ses_forwarder.arn
+    invocation_type = "Event"
+    position        = 2
+  }
 }
 
