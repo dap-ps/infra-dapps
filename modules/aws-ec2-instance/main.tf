@@ -19,6 +19,9 @@ resource "aws_security_group" "main" {
   name        = "default-${var.zone}-${var.env}-${var.stage}"
   description = "Allow SSH and other ports. (Terraform)"
 
+  /* needs to exist in VPC of the instance */
+  vpc_id = var.vpc_id
+
   /* unrestricted outging traffic */
   egress {
     from_port   = 0
@@ -47,6 +50,7 @@ resource "aws_security_group" "main" {
   }
 }
 
+
 resource "aws_instance" "main" {
   instance_type     = var.instance_type
   availability_zone = var.zone
@@ -55,9 +59,10 @@ resource "aws_instance" "main" {
   /* necessary for SSH access */
   associate_public_ip_address = true
 
-  ami               = data.aws_ami.ubuntu.id
-  key_name          = var.keypair_name
-  security_groups   = [aws_security_group.main.name]
+  ami                    = data.aws_ami.ubuntu.id
+  key_name               = var.keypair_name
+  subnet_id              = var.subnet_id
+  vpc_security_group_ids = [var.sec_group, aws_security_group.main.id]
 
   tags = {
     Name  = "node-${format("%02d", count.index+1)}.${local.host_suffix}"

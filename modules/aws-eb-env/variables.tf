@@ -30,8 +30,8 @@ variable "keypair_name" {
 
 variable "max_availability_zones" {
   description = "Maximum number of availability zones that can be used in Subnet."
-  default     = "2"
-  type        = string
+  default     = 2
+  type        = number
 }
 
 variable "env_vars" {

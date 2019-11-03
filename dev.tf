@@ -45,6 +45,10 @@ module "dev_db" {
   domain     = var.public_domain
   open_ports = [27017] /* mongodb */
 
+  /* Network */
+  vpc_id     = module.dev_env.vpc_id
+  subnet_id  = module.dev_env.subnet_ids[0]
+  sec_group  = module.dev_env.security_group_id
   /* Plumbing */
   keypair_name  = aws_key_pair.admin.key_name
   gandi_zone_id = gandi_zone.dap_ps_zone.id

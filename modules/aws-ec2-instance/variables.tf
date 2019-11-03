@@ -46,6 +46,23 @@ variable "keypair_name" {
   type        = string
 }
 
+/* NETWORK --------------------------------------*/
+
+variable "vpc_id" {
+  description = "ID of VPC for the instance."
+  type        = string
+}
+
+variable "subnet_id" {
+  description = "ID of the subnet to use for the instance."
+  type        = string
+}
+
+variable "sec_group" {
+  description = "ID of the VPC security group for the instance."
+  type        = string
+}
+
 /* DNS ------------------------------------------*/
 
 variable "gandi_zone_id" {

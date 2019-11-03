@@ -23,3 +23,15 @@ output "elb_names" {
 output "elb_fqdns" {
   value = [for elb in data.aws_elb.main: elb.dns_name]
 }
+
+output "vpc_id" {
+  value = module.vpc.vpc_id
+}
+
+output "subnet_ids" {
+  value = module.subnets.public_subnet_ids
+}
+
+output "security_group_id" {
+  value = module.vpc.vpc_default_security_group_id
+}
