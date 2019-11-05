@@ -8,13 +8,13 @@ variable "stage" {
   type        = string
 }
 
-variable "gandi_zone_id" {
-  description = "ID of the zone in Gandi DNS registrar."
+variable "dns_domain" {
+  description = "Name of domain for this environment."
   type        = string
 }
 
-variable "dns_domain" {
-  description = "Name of domain for this environment."
+variable "cert_arn" {
+  description = "ARN of the ACM certificate for the domain."
   type        = string
 }
 

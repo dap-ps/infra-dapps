@@ -49,7 +49,7 @@ module "eb_environment" {
   solution_stack_name = var.stack_name
   keypair             = var.keypair_name
 
-  loadbalancer_certificate_arn = aws_acm_certificate.main.arn
+  loadbalancer_certificate_arn = var.cert_arn
 
   vpc_id               = module.vpc.vpc_id
   application_subnets  = module.subnets.public_subnet_ids
@@ -99,12 +99,4 @@ module "eb_environment" {
 data "aws_elb" "main" {
   name  = module.eb_environment.load_balancers[count.index]
   count = 1
-}
-
-resource "gandi_zonerecord" "main" {
-  zone   = var.gandi_zone_id
-  name   = var.stage
-  type   = "CNAME"
-  ttl    = 3600
-  values = [for elb in data.aws_elb.main: "${elb.dns_name}."]
 }

@@ -33,6 +33,14 @@ locals {
   }
 }
 
+module "prod_cert" {
+  source  = "./modules/aws-acm-cert"
+  stage   = "prod"
+  domain  = "dap.ps"
+  sans    = ["dap.ps"]
+  zone_id = gandi_zone.dap_ps_zone.id
+}
+
 module "prod_db_bucket" {
   source      = "./modules/aws-s3-bucket"
   bucket_name = "prod-dap-ps-db-backups"
@@ -53,6 +61,7 @@ module "prod_db" {
   vpc_id     = module.prod_env.vpc_id
   subnet_id  = module.prod_env.subnet_ids[0]
   sec_group  = module.prod_env.security_group_id
+
   /* Plumbing */
   keypair_name  = aws_key_pair.admin.key_name
   gandi_zone_id = gandi_zone.dap_ps_zone.id
@@ -67,8 +76,8 @@ module "prod_env" {
   stack_name = var.stack_name
 
   /* Plumbing */
+  cert_arn      = module.prod_cert.arn
   keypair_name  = aws_key_pair.admin.key_name
-  gandi_zone_id = gandi_zone.dap_ps_zone.id
 
   /* Scaling */
   instance_type = "t2.micro"
@@ -76,7 +85,24 @@ module "prod_env" {
   autoscale_max = 6
 }
 
+module "prod_cdn" {
+  source       = "./modules/aws-cloud-front"
+  env          = "dap-ps"
+  stage        = "prod"
+  aliases      = ["dap.ps", "prod.dap.ps"]
+  cert_arn     = module.prod_cert.arn
+  origin_fqdns = module.prod_env.elb_fqdns
+}
+
 /* DNS ------------------------------------------*/
+
+resource "gandi_zonerecord" "prod_dns" {
+  zone   = gandi_zone.dap_ps_zone.id
+  name   = "prod"
+  type   = "CNAME"
+  ttl    = 3600
+  values = ["${module.prod_cdn.cf_domain_name}."]
+}
 
 /* Apex DNS records cannot be CNAMEs */
 data "dns_a_record_set" "prod_elbs" {
@@ -84,7 +110,7 @@ data "dns_a_record_set" "prod_elbs" {
   count = length(module.prod_env.elb_fqdns)
 }
 
-resource "gandi_zonerecord" "dap_ps_site" {
+resource "gandi_zonerecord" "prod_apex_dns" {
   zone   = gandi_zone.dap_ps_zone.id
   name   = "@"
   type   = "A"

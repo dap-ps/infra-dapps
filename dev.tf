@@ -29,6 +29,13 @@ locals {
   }
 }
 
+module "dev_cert" {
+  source  = "./modules/aws-acm-cert"
+  stage   = "dev"
+  domain  = "dap.ps"
+  zone_id = gandi_zone.dap_ps_zone.id
+}
+
 module "dev_db_bucket" {
   source      = "./modules/aws-s3-bucket"
   bucket_name = "dev-dap-ps-db-backups"
@@ -63,11 +70,30 @@ module "dev_env" {
   stack_name = var.stack_name
 
   /* Plumbing */
+  cert_arn      = module.dev_cert.arn
   keypair_name  = aws_key_pair.admin.key_name
-  gandi_zone_id = gandi_zone.dap_ps_zone.id
 
   /* Scaling */
   instance_type = "t3.small"
   autoscale_min = 1
   autoscale_max = 2
+}
+
+module "dev_cdn" {
+  source       = "./modules/aws-cloud-front"
+  env          = "dap-ps"
+  stage        = "dev"
+  aliases      = ["dev.dap.ps"]
+  cert_arn     = module.dev_cert.arn
+  origin_fqdns = module.dev_env.elb_fqdns
+}
+
+/* DNS ------------------------------------------*/
+
+resource "gandi_zonerecord" "dev_dns" {
+  zone   = gandi_zone.dap_ps_zone.id
+  name   = "dev"
+  type   = "CNAME"
+  ttl    = 3600
+  values = ["${module.dev_cdn.cf_domain_name}."]
 }
