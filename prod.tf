@@ -105,9 +105,8 @@ resource "gandi_zonerecord" "prod_dns" {
 }
 
 /* Apex DNS records cannot be CNAMEs */
-data "dns_a_record_set" "prod_elbs" {
-  host  = module.prod_env.elb_fqdns[count.index]
-  count = length(module.prod_env.elb_fqdns)
+data "dns_a_record_set" "prod_cdn" {
+  host  = module.prod_cdn.cf_domain_name
 }
 
 resource "gandi_zonerecord" "prod_apex_dns" {
@@ -115,5 +114,5 @@ resource "gandi_zonerecord" "prod_apex_dns" {
   name   = "@"
   type   = "A"
   ttl    = 3600
-  values = flatten([for elb in data.dns_a_record_set.prod_elbs: elb.addrs])
+  values = data.dns_a_record_set.prod_cdn.addrs
 }
