@@ -37,7 +37,7 @@ module "prod_cert" {
   source  = "./modules/aws-acm-cert"
   stage   = "prod"
   domain  = "dap.ps"
-  sans    = ["dap.ps"]
+  sans    = ["dap.ps", "raw.prod.dap.ps"]
   zone_id = gandi_zone.dap_ps_zone.id
 }
 
@@ -102,6 +102,15 @@ resource "gandi_zonerecord" "prod_dns" {
   type   = "CNAME"
   ttl    = 3600
   values = ["${module.prod_cdn.cf_domain_name}."]
+}
+
+/* raw subdomain for access without CDN */
+resource "gandi_zonerecord" "prod_dns_raw" {
+  zone   = gandi_zone.dap_ps_zone.id
+  name   = "raw.prod"
+  type   = "CNAME"
+  ttl    = 3600
+  values = [for elb in module.prod_env.elb_fqdns: "${elb}."]
 }
 
 /* Apex DNS records cannot be CNAMEs */

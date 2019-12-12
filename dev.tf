@@ -33,6 +33,7 @@ module "dev_cert" {
   source  = "./modules/aws-acm-cert"
   stage   = "dev"
   domain  = "dap.ps"
+  sans    = ["dap.ps", "raw.dev.dap.ps"]
   zone_id = gandi_zone.dap_ps_zone.id
 }
 
@@ -96,4 +97,13 @@ resource "gandi_zonerecord" "dev_dns" {
   type   = "CNAME"
   ttl    = 3600
   values = ["${module.dev_cdn.cf_domain_name}."]
+}
+
+/* raw subdomain for access without CDN */
+resource "gandi_zonerecord" "dev_dns_raw" {
+  zone   = gandi_zone.dap_ps_zone.id
+  name   = "raw.dev"
+  type   = "CNAME"
+  ttl    = 3600
+  values = [for elb in module.dev_env.elb_fqdns: "${elb}."]
 }

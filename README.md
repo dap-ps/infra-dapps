@@ -4,8 +4,10 @@ This repo configures infrastructure for the https://dap.ps/ service.
 
 The service is split into two stages:
 
-* __`prod`__ - https://prod.dap.sp/
-* __`dev`__ - https://dev.dap.ps/
+| Stage | With CDN | Without CDN |
+|-|-|-|
+| __`prod`__ | https://prod.dap.sp/ | https://raw.prod.dap.sp/ |
+| __`dev`__  | https://dev.dap.ps/  | https://raw.dev.dap.sp/ |
 
 The `prod` environment is `CNAME`ed to `dap.ps` domain.
 
@@ -18,6 +20,7 @@ The infrastructure is hosted on AWS and consists of 5 main elements:
 * [__EC2__](https://aws.amazon.com/ec2/) - [MongoDB](https://www.mongodb.com/) cluster
 * [__S3__](https://aws.amazon.com/s3/) - [MongoDB](https://www.mongodb.com/) backups & [Terraform](https://www.terraform.io/) state
 * [__SES__](https://aws.amazon.com/ses/) - Mail forwarding
+* [__CF__](https://aws.amazon.com/cloudfront/) - CDN
 
 All the AWS parts are provisioned and managed with [Terraform](https://www.terraform.io/) and the MongoDB cluster configured with [Ansible](https://www.ansible.com/).
 
@@ -35,7 +38,6 @@ And then configure the MongoDB hosts using ansible:
 ansible-playbook ansible/dev.yml
 ansible-playbook ansible/prod.yml
 ```
-
 # Known Issues
 
 * The ElasticBeanstalk environments can fail when being recreated
