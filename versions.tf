@@ -2,6 +2,7 @@
 terraform {
   required_version = ">= 0.12"
   required_providers {
-    aws = "= 2.21.0"
+    aws   = "= 2.44.0"
+    gandi = ">= 1.1.0"
   }
 }

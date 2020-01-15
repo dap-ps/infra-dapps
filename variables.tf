@@ -48,7 +48,7 @@ variable "ssh_user" {
 
 variable "stack_name" {
   description = "Elastic Beanstalk stack, e.g. Docker, Go, Node, Java, IIS."
-  default     = "64bit Amazon Linux 2018.03 v4.11.0 running Node.js"
+  default     = "64bit Amazon Linux 2018.03 v4.12.0 running Node.js"
   /* http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/concepts.platforms.html */
 }
 
