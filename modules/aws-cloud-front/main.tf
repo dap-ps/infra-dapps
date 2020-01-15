@@ -62,6 +62,30 @@ resource "aws_cloudfront_distribution" "default" {
     }
   }
 
+  /* Special case for /metadata/all to show newly added Dapps */
+  dynamic "ordered_cache_behavior" {
+    iterator = fqdn
+    for_each = var.origin_fqdns
+    content {
+      target_origin_id = "ELB-${split(".", fqdn.value)[0]}"
+
+      path_pattern    = "/metadata/all"
+      cached_methods  = ["GET", "HEAD"]
+      allowed_methods = ["GET", "HEAD", "OPTIONS"]
+
+      forwarded_values {
+        query_string = false
+        headers      = []
+        cookies { forward = "none" }
+      }
+
+      viewer_protocol_policy = "redirect-to-https"
+      min_ttl                = var.min_ttl
+      default_ttl            = 60
+      max_ttl                = 60
+    }
+  }
+
   restrictions {
     geo_restriction {
       restriction_type = "none"
