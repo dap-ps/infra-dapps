@@ -27,7 +27,7 @@ resource "aws_s3_bucket" "main" {
 
 resource "aws_iam_user_policy" "main" {
   name = "${var.bucket_name}-access"
-  user = "${aws_iam_user.main.name}"
+  user = aws_iam_user.main.name
 
   policy = <<EOF
 {

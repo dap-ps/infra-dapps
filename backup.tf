@@ -22,7 +22,7 @@ EOF
 
 resource "aws_iam_role_policy" "prod_snapshots" {
   name = "dap-ps-prod-snapshots-policy"
-  role = "${aws_iam_role.prod_snapshots.id}"
+  role = aws_iam_role.prod_snapshots.id
 
   policy = <<EOF
 {
@@ -52,7 +52,7 @@ EOF
 
 resource "aws_dlm_lifecycle_policy" "prod_snapshots" {
   description        = "dap-ps prod DB DLM lifecycle policy"
-  execution_role_arn = "${aws_iam_role.prod_snapshots.arn}"
+  execution_role_arn = aws_iam_role.prod_snapshots.arn
   state              = "ENABLED"
 
   policy_details {
