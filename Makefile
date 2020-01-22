@@ -75,7 +75,7 @@ init-terraform:
 
 secrets:
 	echo "Saving secrets to: terraform.tfvars"
-	@echo "\
+	@echo -e "\
 # secrets extracted from password-store\n\
 aws_access_key     = \"$(shell pass cloud/AWS/access-key)\"\n\
 aws_secret_key     = \"$(shell pass cloud/AWS/secret-key)\"\n\
