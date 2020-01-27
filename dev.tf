@@ -15,8 +15,8 @@ locals {
     BLOCKCHAIN_CONNECTION_POINT      = "wss://ropsten.infura.io/ws/v3/8675214b97b44e96b70d05326c61fd6a"
     DISCOVER_CONTRACT                = "0x9fb115BC152aE21ECDc81c73843673fa38e4D2dB"
     /* IPFS */
-    IPFS_HOST     = "ipfs.infura.io"
-    IPFS_PORT     = 5001
+    IPFS_HOST     = "ipfs.status.im"
+    IPFS_PORT     = 443
     IPFS_PROTOCOL = "https"
     /* Email */
     EMAIL_USER            = var.dap_ps_smtp_user
