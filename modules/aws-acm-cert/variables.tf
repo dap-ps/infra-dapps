@@ -9,7 +9,7 @@ variable "domain" {
 }
 
 variable "zone_id" {
-  description = "ID of the zone in Gandi DNS registrar."
+  description = "ID of the zone in AWS Route53."
   type        = string
 }
 
@@ -17,4 +17,9 @@ variable "sans" {
   description = "List of Subject Alternative Names."
   type        = list(string)
   default    = []
+}
+
+variable "route53_zone_id" {
+  description = "ID of the zone in AWS Route53."
+  type        = string
 }

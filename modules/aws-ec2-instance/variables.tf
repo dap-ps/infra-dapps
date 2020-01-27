@@ -65,8 +65,8 @@ variable "sec_group" {
 
 /* DNS ------------------------------------------*/
 
-variable "gandi_zone_id" {
-  description = "ID of the zone in Gandi DNS registrar."
+variable "route53_zone_id" {
+  description = "ID of the zone in AWS Route53."
   type        = string
 }
 

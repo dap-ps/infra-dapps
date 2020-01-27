@@ -8,10 +8,6 @@ provider "aws" {
   secret_key = var.aws_secret_key
 }
 
-provider "gandi" {
-  key     = var.gandi_api_token
-}
-
 /* DATA -----------------------------------------*/
 
 terraform {
@@ -42,17 +38,6 @@ resource "aws_s3_bucket" "tf-state" {
   lifecycle {
     prevent_destroy = true
   }
-}
-
-/* Gandi DNS ------------------------------------*/
-
-resource "gandi_zone" "dap_ps_zone" {
-  name = "${var.public_domain} zone"
-}
-
-resource "gandi_domainattachment" "dap_ps" {
-  domain = var.public_domain
-  zone   = gandi_zone.dap_ps_zone.id
 }
 
 /* ACCESS ---------------------------------------*/

@@ -34,7 +34,9 @@ module "dev_cert" {
   stage   = "dev"
   domain  = "dap.ps"
   sans    = ["dap.ps", "raw.dev.dap.ps"]
-  zone_id = gandi_zone.dap_ps_zone.id
+  zone_id = aws_route53_zone.dap_ps.zone_id
+
+  route53_zone_id = aws_route53_zone.dap_ps.zone_id
 }
 
 module "dev_db_bucket" {
@@ -58,8 +60,8 @@ module "dev_db" {
   subnet_id  = module.dev_env.subnet_ids[0]
   sec_group  = module.dev_env.security_group_id
   /* Plumbing */
-  keypair_name  = aws_key_pair.admin.key_name
-  gandi_zone_id = gandi_zone.dap_ps_zone.id
+  keypair_name    = aws_key_pair.admin.key_name
+  route53_zone_id = aws_route53_zone.dap_ps.zone_id
 }
 
 module "dev_env" {
@@ -89,21 +91,34 @@ module "dev_cdn" {
   origin_fqdns = module.dev_env.elb_fqdns
 }
 
-/* DNS ------------------------------------------*/
-
-resource "gandi_zonerecord" "dev_dns" {
-  zone   = gandi_zone.dap_ps_zone.id
-  name   = "dev"
-  type   = "CNAME"
-  ttl    = 3600
-  values = ["${module.dev_cdn.cf_domain_name}."]
-}
+/* AWS DNS --------------------------------------*/
 
 /* raw subdomain for access without CDN */
-resource "gandi_zonerecord" "dev_dns_raw" {
-  zone   = gandi_zone.dap_ps_zone.id
-  name   = "raw.dev"
-  type   = "CNAME"
-  ttl    = 3600
-  values = [for elb in module.dev_env.elb_fqdns: "${elb}."]
+resource "aws_route53_record" "dev_dns_raw" {
+  zone_id = aws_route53_zone.dap_ps.zone_id
+  name    = "raw.dev"
+  type    = "CNAME"
+  ttl     = 3600
+  records = [for elb in module.dev_env.elb_fqdns: "${elb}."]
+}
+
+resource "aws_route53_record" "dev_dns_cdn" {
+  zone_id = aws_route53_zone.dap_ps.zone_id
+  name    = "cdn.dev"
+  type    = "CNAME"
+  ttl     = 3600
+  records = ["${module.dev_cdn.cf_domain_name}."]
+}
+
+resource "aws_route53_record" "dev_dns" {
+  zone_id = aws_route53_zone.dap_ps.zone_id
+  name    = "dev"
+  type    = "CNAME"
+
+  alias {
+    name    = aws_route53_record.dev_dns_cdn.fqdn
+    zone_id = aws_route53_record.dev_dns_cdn.zone_id
+
+    evaluate_target_health = false
+  }
 }

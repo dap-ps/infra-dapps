@@ -8,10 +8,6 @@ variable "aws_secret_key" {
   description = "Secret key for the AWS API."
 }
 
-variable "gandi_api_token" {
-  description = "API token for Gandi DNS API"
-}
-
 /* GENERAL --------------------------------------*/
 
 variable "hosts_subdomain" {

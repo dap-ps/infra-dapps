@@ -38,7 +38,9 @@ module "prod_cert" {
   stage   = "prod"
   domain  = "dap.ps"
   sans    = ["dap.ps", "raw.prod.dap.ps"]
-  zone_id = gandi_zone.dap_ps_zone.id
+  zone_id = aws_route53_zone.dap_ps.zone_id
+
+  route53_zone_id = aws_route53_zone.dap_ps.zone_id
 }
 
 module "prod_db_bucket" {
@@ -63,8 +65,8 @@ module "prod_db" {
   sec_group  = module.prod_env.security_group_id
 
   /* Plumbing */
-  keypair_name  = aws_key_pair.admin.key_name
-  gandi_zone_id = gandi_zone.dap_ps_zone.id
+  keypair_name    = aws_key_pair.admin.key_name
+  route53_zone_id = aws_route53_zone.dap_ps.zone_id
 }
 
 module "prod_env" {
@@ -94,34 +96,50 @@ module "prod_cdn" {
   origin_fqdns = module.prod_env.elb_fqdns
 }
 
-/* DNS ------------------------------------------*/
-
-resource "gandi_zonerecord" "prod_dns" {
-  zone   = gandi_zone.dap_ps_zone.id
-  name   = "prod"
-  type   = "CNAME"
-  ttl    = 3600
-  values = ["${module.prod_cdn.cf_domain_name}."]
-}
+/* AWS DNS --------------------------------------*/
 
 /* raw subdomain for access without CDN */
-resource "gandi_zonerecord" "prod_dns_raw" {
-  zone   = gandi_zone.dap_ps_zone.id
-  name   = "raw.prod"
-  type   = "CNAME"
-  ttl    = 3600
-  values = [for elb in module.prod_env.elb_fqdns: "${elb}."]
+resource "aws_route53_record" "prod_dns_raw" {
+  zone_id = aws_route53_zone.dap_ps.zone_id
+  name    = "raw.prod"
+  type    = "CNAME"
+  ttl     = 3600
+  records = [for elb in module.prod_env.elb_fqdns: "${elb}."]
 }
 
-/* Apex DNS records cannot be CNAMEs */
-data "dns_a_record_set" "prod_cdn" {
-  host  = module.prod_cdn.cf_domain_name
+resource "aws_route53_record" "prod_dns_cdn" {
+  zone_id = aws_route53_zone.dap_ps.zone_id
+  name    = "cdn.prod"
+  type    = "CNAME"
+  ttl     = 3600
+  records = ["${module.prod_cdn.cf_domain_name}."]
 }
 
-resource "gandi_zonerecord" "prod_apex_dns" {
-  zone   = gandi_zone.dap_ps_zone.id
-  name   = "@"
-  type   = "A"
-  ttl    = 3600
-  values = data.dns_a_record_set.prod_cdn.addrs
+resource "aws_route53_record" "prod_dns" {
+  zone_id = aws_route53_zone.dap_ps.zone_id
+  name    = "prod"
+  type    = "CNAME"
+
+  alias {
+    name    = aws_route53_record.prod_dns_cdn.fqdn
+    zone_id = aws_route53_record.prod_dns_cdn.zone_id
+
+    evaluate_target_health = false
+  }
+}
+
+/* Apex DNS Record ------------------------------*/
+
+/* WARNING: Main site record for https://dap.ps/ */
+resource "aws_route53_record" "prod_dns_apex" {
+  zone_id = aws_route53_zone.dap_ps.zone_id
+  name    = ""
+  type    = "A"
+
+  alias {
+    name    = module.prod_cdn.cf_domain_name
+    zone_id = module.prod_cdn.cf_zone_id
+
+    evaluate_target_health = false
+  }
 }

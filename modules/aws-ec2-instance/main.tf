@@ -96,14 +96,15 @@ resource "aws_instance" "main" {
   }
 }
 
-resource "gandi_zonerecord" "main" {
-  zone   = var.gandi_zone_id
-  name   = "${aws_instance.main[count.index].tags.Name}.${var.subdomain}"
-  type   = "A"
-  ttl    = 600
-  values = [aws_instance.main[count.index].public_ip]
-  count  = length(aws_instance.main)
+resource "aws_route53_record" "main" {
+  zone_id = var.route53_zone_id
+  name    = "${aws_instance.main[count.index].tags.Name}.${var.subdomain}"
+  type    = "A"
+  ttl     = 600
+  records = [aws_instance.main[count.index].public_ip]
+  count   = length(aws_instance.main)
 }
+
 
 /* this adds the host to the Terraform state for Ansible inventory */
 resource "ansible_host" "main" {

@@ -20,11 +20,12 @@ The infrastructure is hosted on AWS and consists of 5 main elements:
 * [__EC2__](https://aws.amazon.com/ec2/) - [MongoDB](https://www.mongodb.com/) cluster
 * [__S3__](https://aws.amazon.com/s3/) - [MongoDB](https://www.mongodb.com/) backups & [Terraform](https://www.terraform.io/) state
 * [__SES__](https://aws.amazon.com/ses/) - Mail forwarding
-* [__CF__](https://aws.amazon.com/cloudfront/) - CDN
+* [__CF__](https://aws.amazon.com/cloudfront/) - [CDN](https://en.wikipedia.org/wiki/Content_delivery_network)
+* [__R53__](https://aws.amazon.com/route53/) - Route53 DNS
 
 All the AWS parts are provisioned and managed with [Terraform](https://www.terraform.io/) and the MongoDB cluster configured with [Ansible](https://www.ansible.com/).
 
-The only part that is not AWS is [Gandi](https://www.gandi.net/) DNS provider due to AWS [Route53](https://aws.amazon.com/route53/) not supporting the `.ps` [TLD](https://en.wikipedia.org/wiki/Top-level_domain).
+The `dap.ps` domain is registered via [Gandi](https://www.gandi.net/) DNS provider and is managed with AWS [Route53](https://aws.amazon.com/route53/) [Hosted Zone](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-working-with.html) by changing the Name Servers with help from Gandi support. See `dns.tf` for more details.
 
 # Usage
 
