@@ -95,7 +95,7 @@ EOF
 
 data "archive_file" "ses_forwarder" {
   type = "zip"
-  source_file = "files/index.js"
+  source_file = "files/sesforwarder.js"
   output_path = "files/sesforwarder.zip"
 }
 

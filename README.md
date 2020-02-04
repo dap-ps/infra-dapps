@@ -13,6 +13,8 @@ The `prod` environment is `CNAME`ed to `dap.ps` domain.
 
 # Technical Details
 
+## Site
+
 The infrastructure is hosted on AWS and consists of 5 main elements:
 
 * [__ELB__](https://aws.amazon.com/elasticloadbalancing/) - Load balancers
@@ -27,6 +29,10 @@ All the AWS parts are provisioned and managed with [Terraform](https://www.terra
 
 The `dap.ps` domain is registered via [Gandi](https://www.gandi.net/) DNS provider and is managed with AWS [Route53](https://aws.amazon.com/route53/) [Hosted Zone](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-working-with.html) by changing the Name Servers with help from Gandi support. See `dns.tf` for more details.
 
+## EMail
+
+There are no mailboxes for `dap.ps` domain. We forward emails using AWS Lambda and AWS SES. You can change the forwarding rules by editing the `defaultConfig` object in [`files/sesforwarder.js`](files/sesforwarder.js).
+
 # Usage
 
 Creation of both `dev` and `prod` stages is as simple as:
@@ -39,6 +45,7 @@ And then configure the MongoDB hosts using ansible:
 ansible-playbook ansible/dev.yml
 ansible-playbook ansible/prod.yml
 ```
+
 # Known Issues
 
 * The ElasticBeanstalk environments can fail when being recreated
