@@ -31,7 +31,7 @@ The `dap.ps` domain is registered via [Gandi](https://www.gandi.net/) DNS provid
 
 ## EMail
 
-There are no mailboxes for `dap.ps` domain. We forward emails using AWS Lambda and AWS SES. You can change the forwarding rules by editing the `defaultConfig` object in [`files/sesforwarder.js`](files/sesforwarder/index.js).
+There are no mailboxes for `dap.ps` domain. We forward emails using AWS Lambda and AWS SES. You can change the forwarding rules by editing the `defaultConfig` object in [`files/sesforwarder.js`](files/sesforwarder/index.js) and adding [Verified Emails](https://www.terraform.io/docs/providers/aws/r/ses_email_identity.html) in [`mail.tf`](mail.tf).
 
 # Usage
 
