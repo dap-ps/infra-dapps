@@ -192,7 +192,7 @@ resource "aws_route53_record" "dap_ps_dkim" {
 
 resource "aws_route53_record" "dap_ps_mx" {
   zone_id = aws_route53_zone.dap_ps.zone_id
-  name    = "@"
+  name    = ""
   type    = "MX"
   ttl     = 3600
   records = ["10 inbound-smtp.us-east-1.amazonaws.com."]
