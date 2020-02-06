@@ -37,6 +37,7 @@ var defaultConfig = {
   forwardMapping: {
     "approval@dap.ps": [ "dapps-approvals@status.im" ],
     "stake@dap.ps":    [ "dapps-staking@status.im" ],
+    "admin@dap.ps":    [ "jakub@status.im" ],
     "@dap.ps":         [ "andy@status.im" ], /* Catch-all */
   }
 };
