@@ -125,6 +125,7 @@ resource "aws_ses_receipt_rule" "ses_forwarder" {
   enabled       = true
   scan_enabled  = true
   rule_set_name = "default-rule-set"
+  recipients    = ["dap.ps"]
   
   s3_action {
     bucket_name       = var.ses_forwarder_bucket_name
