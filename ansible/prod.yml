@@ -2,6 +2,7 @@
 - name: Configure MongoDB prod cluster
   hosts: db.prod
   roles:
+    - { role: swap-file,        tags: swap-file }
     - { role: mongodb-firewall, tags: mongodb-firewall }
     - { role: mongodb-setup,    tags: mongodb-setup }
     - { role: mongodb-backups,  tags: mongodb-backups }

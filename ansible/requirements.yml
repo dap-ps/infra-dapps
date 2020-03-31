@@ -16,7 +16,10 @@
   scm: git
 
 # WARNING: Fails if python3 is the default
-# Details:
 - name: mongodb-setup
   src: https://github.com/UnderGreen/ansible-role-mongodb.git
+  scm: git
+
+- name: swap-file
+  src: git@github.com:status-im/infra-role-swap-file.git
   scm: git
