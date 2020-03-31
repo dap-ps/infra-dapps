@@ -6,6 +6,6 @@
     jump: ACCEPT
     source: '0.0.0.0/0'
     protocol: 'tcp'
-    destination_port: '{{ mongodb_net_port }}'
+    destination_port: '{{ mongodb_net_port | string }}'
   notify:
     - Save iptables rules
