@@ -23,3 +23,7 @@
 - name: swap-file
   src: git@github.com:status-im/infra-role-swap-file.git
   scm: git
+
+- name: systemd-timer
+  src: git@github.com:status-im/infra-role-systemd-timer.git
+  scm: git

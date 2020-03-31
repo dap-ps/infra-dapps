@@ -4,6 +4,8 @@ mongodb_backup_path: '/var/tmp/backups/mongodb'
 mongodb_backup_file_prefix: '{{ mongodb_backup_db_name | replace("-", "_") }}'
 mongodb_backup_script: '/var/lib/backups/{{ mongodb_backup_db_name | replace("-", "_") }}_dump.sh'
 mongodb_backup_frequency: daily
+mongodb_backup_timeout: 120
+mongodb_backup_user: root
 
 # db auth
 mongodb_backup_db_name: ~

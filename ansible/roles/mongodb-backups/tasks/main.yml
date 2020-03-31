@@ -10,39 +10,29 @@
     - '{{ mongodb_backup_path }}'
 
 - name: MongoDB | Create DB dump script
-  copy:
+  template:
+    src: 'dump.sh.j2'
     dest: '{{ mongodb_backup_script }}'
-    content: |
-      #!/usr/bin/env bash
-      TSTAMP=$(date -u +%Y%m%d%H%M%S)
-      BKP_DIR={{ mongodb_backup_path }}
-      BPK_NAME="{{ mongodb_backup_file_prefix }}_dump_${TSTAMP}"
-      mongodump \
-        --verbose \
-        --host={{ mongodb_backup_db_addr | mandatory }} \
-        --port={{ mongodb_backup_db_port | mandatory }} \
-        --username={{ mongodb_backup_db_user | mandatory }} \
-        --password={{ mongodb_backup_db_pass | mandatory }} \
-        --db={{ mongodb_backup_db_name | mandatory }} \
-        --authenticationDatabase={{ mongodb_backup_db_name | mandatory }} \
-        --out="${BKP_DIR}/${BPK_NAME}"
-      tar czf "${BKP_DIR}/${BPK_NAME}.tar.gz" "${BKP_DIR}/${BPK_NAME}"
-      rm -fr "${BKP_DIR}/${BPK_NAME}"
     group: adm
     mode: 0750
 
-- name: MongoDB | Configure DB dump cron job
-  cron:
-    name: MongoDB Dump
-    special_time: '{{ mongodb_backup_frequency }}'
-    user: root
-    job: '{{ mongodb_backup_script }}'
+- name: MongoDB | Configure DB dump timer
+  include_role: name=systemd-timer
+  vars:
+    systemd_timer_name: dump-mongod
+    systemd_timer_description: 'MongoDB dump job'
+    systemd_timer_user: '{{ mongodb_backup_user }}'
+    systemd_timer_frequency: '{{ mongodb_backup_frequency | default("daily") }}'
+    systemd_timer_timeout_sec: '{{ mongodb_backup_timeout }}'
+    systemd_timer_requires_extra: 'mongod.service'
+    systemd_timer_script_path: '{{ mongodb_backup_script }}'
+    systemd_timer_start_on_creation: false
 
 - name: MongoDB | Configure S3 upload cron job
   include_role:
     name: s3cmd-backup
   vars:
-    backup_name: mongodb-backups
+    backup_name: mongod
     backup_number: 1
     backup_hour: 4
     backup_day: '*'
