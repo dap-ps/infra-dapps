@@ -52,6 +52,8 @@ ansible-playbook ansible/prod.yml
   - This is mostly due to AWS being slow at destorying resources and their race conditions
 * There is no easy way of making ElasticBeanstalk spread geographically
   - The only way seems to have multiple EB environments linked via ELB
+* CDN can be slow to pick up updates to ElasticBeanstalk application
+  - Invalidating the CloudFront cache fixes the issue
 
 # TODO
 
