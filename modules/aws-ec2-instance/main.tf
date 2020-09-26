@@ -102,7 +102,7 @@ resource "aws_route53_record" "main" {
   type    = "A"
   ttl     = 600
   records = [aws_instance.main[count.index].public_ip]
-  count   = length(aws_instance.main)
+  count   = var.host_count
 }
 
 
@@ -110,7 +110,7 @@ resource "aws_route53_record" "main" {
 resource "ansible_host" "main" {
   inventory_hostname = aws_instance.main[count.index].tags.Name
   groups             = local.groups
-  count              = length(aws_instance.main)
+  count              = var.host_count
 
   vars = {
     ansible_host = aws_instance.main[count.index].public_ip

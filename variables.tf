@@ -1,13 +1,3 @@
-/* REQUIRED -------------------------------------*/
-
-variable "aws_access_key" {
-  description = "Access key for the AWS API."
-}
-
-variable "aws_secret_key" {
-  description = "Secret key for the AWS API."
-}
-
 /* GENERAL --------------------------------------*/
 
 variable "hosts_subdomain" {
@@ -55,32 +45,6 @@ variable "dap_ps_app_bucket_name" {
   default     = "dev-dap-ps-app"
 }
 
-variable "dap_ps_admin_user" {
-  description = "Name of admin user for Dapp Store application."
-}
-
-variable "dap_ps_admin_pass" {
-  description = "Password for admin user for Dapp Store application."
-}
-
-variable "dap_ps_smtp_user" {
-  description = "User for accessing AWS SES SMTP endpoint."
-}
-
-variable "dap_ps_smtp_pass" {
-  description = "Password for accessing AWS SES SMTP endpoint."
-}
-
-variable "dap_ps_dev_db_uri" {
-  description = "An URI for DEV MongoDB database including auth information."
-  /* https://docs.mongodb.com/manual/reference/connection-string/ */
-}
-
-variable "dap_ps_prod_db_uri" {
-  description = "An URI for PROD MongoDB database including auth information."
-  /* https://docs.mongodb.com/manual/reference/connection-string/ */
-}
-
 /* SES FORWARDER --------------------------------*/
 
 variable "ses_forwarder_bucket_name" {
@@ -92,4 +56,3 @@ variable "ses_forwarder_admin_account_arn" {
   description = "Name of bucket to use for storing forwarded emails"
   default     = "arn:aws:iam::760668534108:user/jakubgs"
 }
-

@@ -7,10 +7,10 @@ locals {
     RATE_LIMIT_TIME    = 15 /* ms window */
     RATE_LIMIT_MAX_REQ = 1
     /* Access */
-    ADMIN_USER     = var.dap_ps_admin_user
-    ADMIN_PASSWORD = var.dap_ps_admin_pass
+    ADMIN_USER     = data.pass_password.dap_ps_admin_user.password
+    ADMIN_PASSWORD = data.pass_password.dap_ps_admin_pass.password
     /* Database */
-    DB_CONNECTION = var.dap_ps_prod_db_uri
+    DB_CONNECTION = data.pass_password.dap_ps_prod_db_uri.password
     /* Blockchain */
     BLOCKCHAIN_CONNECTION_POINT      = "wss://mainnet.infura.io/v3/8675214b97b44e96b70d05326c61fd6a"
     DISCOVER_CONTRACT                = "0x5bCF2767F86f14eDd82053bfBfd5069F68C2C5F8"
@@ -19,8 +19,8 @@ locals {
     IPFS_PORT     = 443
     IPFS_PROTOCOL = "https"
     /* Email */
-    EMAIL_USER            = var.dap_ps_smtp_user
-    EMAIL_PASSWORD        = var.dap_ps_smtp_pass
+    EMAIL_USER            = data.pass_password.dap_ps_smtp_user.password
+    EMAIL_PASSWORD        = data.pass_password.dap_ps_smtp_pass.password
     EMAIL_HOST            = "email-smtp.us-east-1.amazonaws.com"
     EMAIL_PORT            = 465
     EMAIL_TLS             = "true"

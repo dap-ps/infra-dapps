@@ -2,8 +2,8 @@
 
 provider "aws" {
   region     = "us-east-1"
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
+  access_key = data.pass_password.aws_access_key.password
+  secret_key = data.pass_password.aws_secret_key.password
 }
 
 /* DATA -----------------------------------------*/
