@@ -11,8 +11,8 @@
   src: git@github.com:status-im/infra-role-consul-service.git
   scm: git
 
-- name: s3cmd-backup
-  src: git@github.com:status-im/infra-role-s3cmd-backup.git
+- name: s3cmd-upload
+  src: git@github.com:status-im/infra-role-s3cmd-upload.git
   scm: git
 
 # WARNING: Fails if python3 is the default

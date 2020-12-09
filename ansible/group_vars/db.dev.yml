@@ -34,6 +34,6 @@ mongodb_backup_db_user: '{{ mongodb_users[0].name }}'
 mongodb_backup_db_pass: '{{ mongodb_users[0].password }}'
 
 # backup uploads to S3
-mongodb_backup_bucket_name: 's3://{{lookup("passwordstore", "service/dev/s3/bucket-name")}}'
+mongodb_backup_bucket_name: '{{lookup("passwordstore", "service/dev/s3/bucket-name")}}'
 mongodb_backup_access_key: '{{lookup("passwordstore", "service/dev/s3/access-key")}}'
 mongodb_backup_secret_key: '{{lookup("passwordstore", "service/dev/s3/secret-key")}}'

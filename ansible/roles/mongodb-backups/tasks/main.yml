@@ -30,14 +30,14 @@
 
 - name: MongoDB | Configure S3 upload cron job
   include_role:
-    name: s3cmd-backup
+    name: s3cmd-upload
   vars:
-    backup_name: mongod
-    backup_number: 1
-    backup_hour: 4
-    backup_day: '*'
-    backup_base_domain: 's3.amazonaws.com'
-    backup_directory: '{{ mongodb_backup_path }}'
-    backup_bucket_name: '{{ mongodb_backup_bucket_name | mandatory }}'
-    backup_access_key: '{{ mongodb_backup_access_key | mandatory }}'
-    backup_secret_key: '{{ mongodb_backup_secret_key | mandatory }}'
+    s3cmd_upload_name: mongod
+    s3cmd_upload_number: 1
+    s3cmd_upload_hour: 4
+    s3cmd_upload_day: '*'
+    s3cmd_upload_base_domain: 's3.amazonaws.com'
+    s3cmd_upload_directory: '{{ mongodb_backup_path }}'
+    s3cmd_upload_bucket_name: '{{ mongodb_backup_bucket_name | mandatory }}'
+    s3cmd_upload_access_key: '{{ mongodb_backup_access_key | mandatory }}'
+    s3cmd_upload_secret_key: '{{ mongodb_backup_secret_key | mandatory }}'
