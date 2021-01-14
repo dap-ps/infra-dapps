@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 TSTAMP=$(date -u +%Y%m%d%H%M%S)
+MAX_KEPT={{ mongodb_backup_max_kept }}
 BKP_DIR={{ mongodb_backup_path }}
 BPK_NAME="{{ mongodb_backup_file_prefix }}_dump_${TSTAMP}"
+
+# Create backup
 mongodump \
     --verbose \
     --host={{ mongodb_backup_db_addr | mandatory }} \
@@ -13,3 +16,7 @@ mongodump \
     --out="${BKP_DIR}/${BPK_NAME}"
 tar czf "${BKP_DIR}/${BPK_NAME}.tar.gz" "${BKP_DIR}/${BPK_NAME}"
 rm -fr "${BKP_DIR}/${BPK_NAME}"
+
+# Purge old dumps
+OLD_DUMPS=$(ls -Art ${BKP_DIR} | head -n -${MAX_KEPT})
+rm -vf ${OLD_DUMPS}

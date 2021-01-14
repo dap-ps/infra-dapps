@@ -24,6 +24,7 @@
     systemd_timer_user: '{{ mongodb_backup_user }}'
     systemd_timer_frequency: '{{ mongodb_backup_frequency | default("daily") }}'
     systemd_timer_timeout_sec: '{{ mongodb_backup_timeout }}'
+    systemd_timer_work_dir: '{{ mongodb_backup_path }}'
     systemd_timer_requires_extra: 'mongod.service'
     systemd_timer_script_path: '{{ mongodb_backup_script }}'
     systemd_timer_start_on_creation: false
