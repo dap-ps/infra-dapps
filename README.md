@@ -6,8 +6,8 @@ The service is split into two stages:
 
 | Stage | With CDN | Without CDN |
 |-|-|-|
-| __`prod`__ | https://prod.dap.sp/ | https://raw.prod.dap.sp/ |
-| __`dev`__  | https://dev.dap.ps/  | https://raw.dev.dap.sp/ |
+| __`prod`__ | https://prod.dap.ps/ | https://raw.prod.dap.ps/ |
+| __`dev`__  | https://dev.dap.ps/  | https://raw.dev.dap.ps/ |
 
 The `prod` environment is `CNAME`ed to `dap.ps` domain.
 
