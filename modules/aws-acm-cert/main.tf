@@ -1,7 +1,7 @@
 resource "aws_acm_certificate" "main" {
   domain_name = "${var.stage}.${var.domain}"
 
-  subject_alternative_names = sort(var.sans)
+  subject_alternative_names = reverse(sort(var.sans))
   validation_method         = "DNS"
 
   tags = {
