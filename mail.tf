@@ -160,7 +160,7 @@ resource "aws_route53_record" "dap_ps_verification" {
   name    = "_amazonses"
   type    = "TXT"
   ttl     = 3600
-  records = ["${aws_ses_domain_identity.dap_ps.verification_token}"]
+  records = [aws_ses_domain_identity.dap_ps.verification_token]
 }
 
 resource "aws_route53_record" "dap_ps_mail_mx" {

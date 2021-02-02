@@ -4,11 +4,11 @@
  **/
 
 output "deploy_access_key" {
-  value = "${aws_iam_access_key.deploy.id}"
+  value = aws_iam_access_key.deploy.id
 }
 
 output "deploy_secret_key" {
-  value = "${aws_iam_access_key.deploy.encrypted_secret}"
+  value = aws_iam_access_key.deploy.encrypted_secret
 }
 
 /**
