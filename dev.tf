@@ -12,8 +12,8 @@ locals {
     /* Database */
     DB_CONNECTION = data.pass_password.dap_ps_dev_db_uri.password
     /* Blockchain */
-    BLOCKCHAIN_CONNECTION_POINT      = "wss://ropsten.infura.io/ws/v3/8675214b97b44e96b70d05326c61fd6a"
-    DISCOVER_CONTRACT                = "0x9fb115BC152aE21ECDc81c73843673fa38e4D2dB"
+    INFURA_KEY        = "8675214b97b44e96b70d05326c61fd6a"
+    DISCOVER_CONTRACT = "0x15E64CA874071DaE0bf0cEdF31d36D9f7e7F7909"
     /* IPFS */
     IPFS_HOST     = "ipfs.status.im"
     IPFS_PORT     = 443
