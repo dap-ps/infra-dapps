@@ -33,7 +33,7 @@ module "dev_cert" {
   source  = "./modules/aws-acm-cert"
   stage   = "dev"
   domain  = "dap.ps"
-  sans    = ["dap.ps", "raw.dev.dap.ps"]
+  sans    = ["raw.dev.dap.ps"]
   zone_id = aws_route53_zone.dap_ps.zone_id
 
   route53_zone_id = aws_route53_zone.dap_ps.zone_id
