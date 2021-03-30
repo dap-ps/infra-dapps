@@ -1,15 +1,10 @@
 .terraform/
+.terraform.lock.hcl
 *.tfstate
 *.tfstate.d/
 *.tfstate.backup
-*.tfstate.*.backup
-*.tfvars
 *.retry
 
-*.zip
-
 ansible/files/*
-
-google-cloud.json
 
 files/sesforwarder.zip

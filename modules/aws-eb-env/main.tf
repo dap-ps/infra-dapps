@@ -8,7 +8,7 @@ data "aws_availability_zones" "available" {
 }
 
 module "vpc" {
-  source = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=0.17.0"
+  source = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=0.21.1"
 
   namespace  = ""
   stage      = var.stage
@@ -17,7 +17,7 @@ module "vpc" {
 }
 
 module "subnets" {
-  source = "git::https://github.com/cloudposse/terraform-aws-dynamic-subnets.git?ref=0.30.0"
+  source = "git::https://github.com/cloudposse/terraform-aws-dynamic-subnets.git?ref=0.38.0"
 
   availability_zones      = slice(data.aws_availability_zones.available.names, 0, var.max_availability_zones)
   namespace               = ""
@@ -31,7 +31,7 @@ module "subnets" {
 }
 
 module "eb_application" {
-  source = "git::https://github.com/cloudposse/terraform-aws-elastic-beanstalk-application.git?ref=0.7.1"
+  source = "git::https://github.com/cloudposse/terraform-aws-elastic-beanstalk-application.git?ref=0.11.0"
 
   name        = local.app_name
   description = "${local.fqdn} application"
@@ -40,7 +40,7 @@ module "eb_application" {
 }
 
 module "eb_environment" {
-  source = "git::https://github.com/cloudposse/terraform-aws-elastic-beanstalk-environment.git?ref=0.30.0"
+  source = "git::https://github.com/cloudposse/terraform-aws-elastic-beanstalk-environment.git?ref=0.38.0"
 
   description         = "Dapp Discovery Store - ${local.fqdn}"
   name                = local.app_name
