@@ -107,7 +107,7 @@ resource "aws_lambda_function" "ses_forwarder" {
   function_name = "SesForwarder"
   role          = aws_iam_role.ses_lambda_role.arn
   handler       = "index.handler"
-  runtime       = "nodejs10.x"
+  runtime       = "nodejs12.x"
   memory_size   = 128
   timeout       = 10
 }
