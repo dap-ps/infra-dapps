@@ -1,5 +1,5 @@
 # Uses PASSWORD_STORE_DIR environment variable
-provider "pass" { refresh_store = false }
+provider "pass" { }
 
 /* Access key for the AWS API. */
 data "pass_password" "aws_access_key" {

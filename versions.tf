@@ -4,7 +4,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "= 3.34.0"
+      version = "= 3.36.0"
     }
     ansible = {
       source  = "nbering/ansible"
@@ -12,7 +12,7 @@ terraform {
     }
     pass = {
       source  = "camptocamp/pass"
-      version = " = 1.4.0"
+      version = " = 2.0.0"
     }
     archive = {
       source = "hashicorp/archive"
