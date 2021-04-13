@@ -77,7 +77,7 @@ module "dev_env" {
   keypair_name  = aws_key_pair.admin.key_name
 
   /* Scaling */
-  instance_type = "t3.small"
+  instance_type = "t2.micro"
   autoscale_min = 1
   autoscale_max = 2
 }
